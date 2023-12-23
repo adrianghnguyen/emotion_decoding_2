@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Feelings wheel app</title>
+</head>
+    <body>
+        <form method="post", action="{{ url_for('processed_emotion') }}">
+            <label for="input_text">Text to process:</label>
+            <br>
+            <textarea id="input_text" name="input_text" rows="6" cols="100"></textarea>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+    </body>
+</html>

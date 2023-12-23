@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Processed text</title>
+    </head>
+    <body>
+        <h2>Submitted text</h2>
+        <p>{{ input_text }}</p>
+        <h2>Emotion label scores</h2>
+        
+        <ul>
+            {% for result in emotion_results %}
+                {% if result.get("filter") == True %}
+                    <li>
+                        
+                        {{ result.get("emotion")|capitalize }} ({{ result.get("definition")}}) presence detected with a score of
+                        <b>{{result.get("score")|round(2)}}</b>
+                        
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        All values <b><{{ filtering_threshold }} </b> have been filtered.
+        <form action="http://127.0.0.1:5000/"> <input type="submit" value="Return to home" />
+        </form>
+    </body>
+</html>
