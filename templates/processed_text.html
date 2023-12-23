@@ -6,7 +6,28 @@
     </head>
     <script>
         document.addEventListener('DOMContentLoaded', function()
-        {            localStorage.setItem("input_text", "{{input_text}}");
+        {
+            // Existing code
+            let key_name = new Date().getTime();
+            let input_text = "{{input_text}}";
+            let emotion_results = "{{emotion_results}}";
+            let timestamp = new Date().toISOString();
+    
+            let jsonObject = {
+                inputText: input_text,
+                emotionResults: JSON.stringify(emotion_results),
+                timestamp: timestamp
+            };
+    
+            // Convert the object to a JSON string
+            let jsonString = JSON.stringify(jsonObject);
+    
+            // Logging key_name and jsonString
+            console.log(key_name);
+            console.log(jsonString);
+    
+            // Storing data in localStorage
+            localStorage.setItem(key_name, jsonString);
         });
     </script>
     <body>
