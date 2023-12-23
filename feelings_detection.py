@@ -56,7 +56,7 @@ def enhanced_results_scores(results, filter_score):
         'remorse': "Regret or guilty feeling",
         'sadness': "Emotional pain, sorrow",
         'surprise': "Feeling astonished, startled by something unexpected",
-        'neutral' : "No particular emotion label detected"
+        'neutral': "No particular emotion label detected"
     }
     emotions_dict.setdefault('No definition found')
 
