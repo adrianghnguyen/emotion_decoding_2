@@ -11,14 +11,14 @@
     <script>
         function displayLocalStorage() {
             // Retrieve all keys in localStorage
-            const keys = Object.keys(localStorage);
+            const entry_key = Object.keys(localStorage);
     
             // Create HTML content
             let htmlContent = '<h2>localStorage Values</h2><ul>';
     
-            keys.forEach(key => {
+            entry_key.forEach(key => {
                 const value = localStorage.getItem(key);
-                htmlContent += `<li><strong>${key}:</strong> ${value}</li>`;
+                htmlContent += `${key}:</strong> ${value}`;
             });
     
             htmlContent += '</ul>';
