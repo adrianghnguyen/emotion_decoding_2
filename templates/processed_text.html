@@ -26,6 +26,7 @@
         </form>
     </body>
     <script>
+        <!-- Write in submitted values to local storage -->
         document.addEventListener('DOMContentLoaded', function()
         {
             // Existing code
@@ -51,19 +52,5 @@
             localStorage.setItem(key_name, jsonString);
         });
     </script>
-    <script>
-        function printLocalStorage() {
-            // Retrieve all keys in localStorage
-            const keys = Object.keys(localStorage);
-    
-            // Print key-value pairs
-            keys.forEach(key => {
-                const value = localStorage.getItem(key);
-                console.log(`Key: ${key}, Value: ${value}`);
-            });
-        }
-    
-        // Example usage
-        printLocalStorage();
-    </script>
+
 </html>

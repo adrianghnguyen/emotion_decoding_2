@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All previous results</title>
+</head>
+<body>
+</body>
+    <div id="localStorageValues"></div>
+    
+    <script>
+        function displayLocalStorage() {
+            // Retrieve all keys in localStorage
+            const keys = Object.keys(localStorage);
+    
+            // Create HTML content
+            let htmlContent = '<h2>localStorage Values</h2><ul>';
+    
+            keys.forEach(key => {
+                const value = localStorage.getItem(key);
+                htmlContent += `<li><strong>${key}:</strong> ${value}</li>`;
+            });
+    
+            htmlContent += '</ul>';
+    
+            // Display the HTML content
+            document.getElementById('localStorageValues').innerHTML = htmlContent;
+        }
+    
+        // Example usage
+        displayLocalStorage();
+    </script>
+</html>
