@@ -4,11 +4,16 @@
         <meta charset="UTF-8">
         <title>Processed text</title>
     </head>
+    <script>
+        document.addEventListener('DOMContentLoaded', function()
+        {            localStorage.setItem("input_text", "{{input_text}}");
+        });
+    </script>
     <body>
         <h2>Submitted text</h2>
         <p>{{ input_text }}</p>
-        <h2>Emotion label scores</h2>
         
+        <h2>Emotion label scores</h2>
         <ul>
             {% for result in emotion_results %}
                 {% if result.get("filter") == True %}
