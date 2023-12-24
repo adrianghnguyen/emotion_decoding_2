@@ -34,7 +34,7 @@
             // Existing code
             let key_name = new Date().getTime();
             let input_text = "{{input_text}}";
-            let emotion_results = "{{emotion_results}}";
+            let emotion_results = {{ emotion_results|tojson }};
             let timestamp = new Date().toISOString();
     
             let jsonObject = {
