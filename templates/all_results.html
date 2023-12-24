@@ -13,26 +13,17 @@
             const keys = Object.keys(localStorage);
         
             // Create HTML content
-            let htmlContent = '<h2>localStorage Values</h2><ul>';
+            let htmlContent = '<h2>Previous local input results</h2><ul>';
         
             keys.forEach(key => {
                 const value = localStorage.getItem(key);
                 
                 // Print key as H3
                 htmlContent += `<h3>${key}</h3>`;
-                
-                // Print out the entire storage object TODO: Parse as a json object?
-                htmlContent += `<li><strong>Value:</strong> ${value}</li>`;
-            
-                // Secondary inner loop for another layer of key-value pairs
-                if (typeof value === 'object') {
-                    htmlContent += `<ul>`;
-                    // If the value is an object, iterate over its key-value pairs
-                    Object.entries(value).forEach(([innerKey, innerValue]) => {
-                        htmlContent += `<li><strong>${innerKey}:</strong> ${innerValue}</li>`;
-                    });
-                    htmlContent += `</ul>`;
-                }
+                individual_entry = JSON.parse(value)
+                htmlContent += `${individual_entry.inputText} at ${individual_entry.timestamp}`
+                //htmlContent += `${individual_entry.emotionResults}` // TODO: This part not working, need to figure
+                how to parse this value out from the retrieved data
             });
 
         
