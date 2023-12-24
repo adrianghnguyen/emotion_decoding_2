@@ -25,10 +25,20 @@
                 htmlContent += `Input text: ${individual_entry.inputText}<br>`
                 
                 // Emotion printout
-                emotionResults = individual_entry.emotionResults // Whole chunk
-                emotion_print = JSON.stringify(emotionResults, null, 4)
-                console.log(emotion_print)
+                arr_emotion_results = individual_entry.emotionResults // Array of emotion results
+                console.log(arr_emotion_results.length)
+                emotion_print = JSON.stringify(arr_emotion_results, null, 4)
                 htmlContent += `${emotion_print}<br>`
+                
+                // Print individual emotions
+                for (let i = 0; i < arr_emotion_results.length; i++){
+                    let single_result = arr_emotion_results[i]
+                    console.log(single_result.emotion)
+                    console.log(single_result.definition)
+                    console.log(single_result.score)
+                    
+                }
+                
             });
 
         
