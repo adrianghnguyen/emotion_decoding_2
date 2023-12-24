@@ -17,8 +17,13 @@
         
             keys.forEach(key => {
                 const value = localStorage.getItem(key);
-                htmlContent += `<li><strong>${key}:</strong> ${value}</li>`;
-        
+                
+                // Print key as H3
+                htmlContent += `<h3>${key}</h3>`;
+                
+                // Print out the entire storage object TODO: Parse as a json object?
+                htmlContent += `<li><strong>Value:</strong> ${value}</li>`;
+            
                 // Secondary inner loop for another layer of key-value pairs
                 if (typeof value === 'object') {
                     htmlContent += `<ul>`;
@@ -29,6 +34,7 @@
                     htmlContent += `</ul>`;
                 }
             });
+
         
             htmlContent += '</ul>';
         
