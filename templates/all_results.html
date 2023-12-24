@@ -22,8 +22,8 @@
                 //htmlContent += `<h3>${key}</h3>`; # Unused - local storage key id
                 individual_entry = JSON.parse(value)
                 htmlContent += `<h3>${individual_entry.inputText} at ${individual_entry.timestamp}</h3>`
-                emotion_results = JSON.parse(individual_entry.emotionResults)
-                console.log(emotion_results)
+                //emotion_results = JSON.parse(individual_entry.emotionResults)
+                //console.log(emotion_results)
                 htmlContent += `${individual_entry.emotionResults}`
             });
 
