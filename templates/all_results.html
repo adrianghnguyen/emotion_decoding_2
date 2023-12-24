@@ -7,27 +7,38 @@
 <body>
 </body>
     <div id="localStorageValues"></div>
-    
     <script>
         function displayLocalStorage() {
             // Retrieve all keys in localStorage
-            const entry_key = Object.keys(localStorage);
-    
+            const keys = Object.keys(localStorage);
+        
             // Create HTML content
             let htmlContent = '<h2>localStorage Values</h2><ul>';
-    
-            entry_key.forEach(key => {
+        
+            keys.forEach(key => {
                 const value = localStorage.getItem(key);
-                htmlContent += `${key}:</strong> ${value}`;
+                htmlContent += `<li><strong>${key}:</strong> ${value}</li>`;
+        
+                // Secondary inner loop for another layer of key-value pairs
+                if (typeof value === 'object') {
+                    htmlContent += `<ul>`;
+                    // If the value is an object, iterate over its key-value pairs
+                    Object.entries(value).forEach(([innerKey, innerValue]) => {
+                        htmlContent += `<li><strong>${innerKey}:</strong> ${innerValue}</li>`;
+                    });
+                    htmlContent += `</ul>`;
+                }
             });
-    
+        
             htmlContent += '</ul>';
-    
+        
             // Display the HTML content
             document.getElementById('localStorageValues').innerHTML = htmlContent;
         }
-    
+        
         // Example usage
-        displayLocalStorage();
+        document.addEventListener('DOMContentLoaded', function() {
+            displayLocalStorage();
+        });
     </script>
 </html>
