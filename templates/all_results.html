@@ -19,11 +19,12 @@
                 const value = localStorage.getItem(key);
                 
                 // Print key as H3
-                htmlContent += `<h3>${key}</h3>`;
+                //htmlContent += `<h3>${key}</h3>`; # Unused - local storage key id
                 individual_entry = JSON.parse(value)
-                htmlContent += `${individual_entry.inputText} at ${individual_entry.timestamp}`
-                //htmlContent += `${individual_entry.emotionResults}` // TODO: This part not working, need to figure
-                how to parse this value out from the retrieved data
+                htmlContent += `<h3>${individual_entry.inputText} at ${individual_entry.timestamp}</h3>`
+                emotion_results = JSON.parse(individual_entry.emotionResults)
+                console.log(emotion_results)
+                htmlContent += `${individual_entry.emotionResults}`
             });
 
         
