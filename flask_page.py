@@ -12,7 +12,12 @@ def processed_emotion():
     input_text = request.form['input_text']
     acceptable_filter_score = 0.1
     single_result = process_single_result(input_text=input_text, acceptable_filter_score=acceptable_filter_score)
+
     return render_template('processed_text.html', input_text=input_text, filtering_threshold=acceptable_filter_score, emotion_results=single_result)
+
+@app.route('/results', methods=['GET'])
+def all_results():
+    return render_template('all_results.html')
 
 if __name__ == "__main__":
     app.run()
