@@ -11,6 +11,7 @@
         function displayLocalStorage() {
             // Retrieve all keys in localStorage
             const keys = Object.keys(localStorage);
+            console.log(keys)
         
             // Create HTML content
             let htmlContent = '<h2>Previous local input results</h2><ul>';
@@ -26,16 +27,16 @@
                 
                 // Emotion printout
                 arr_emotion_results = individual_entry.emotionResults // Array of emotion results
-                console.log(arr_emotion_results.length)
                 emotion_print = JSON.stringify(arr_emotion_results, null, 4)
                 htmlContent += `${emotion_print}<br>`
                 
                 // Print individual emotions
                 for (let i = 0; i < arr_emotion_results.length; i++){
                     let single_result = arr_emotion_results[i]
-                    console.log(single_result.emotion)
-                    console.log(single_result.definition)
-                    console.log(single_result.score)
+                    console.log(single_result)
+                    //console.log(single_result.emotion)
+                    //console.log(single_result.definition)
+                    //console.log(single_result.score)
                     
                 }
                 
