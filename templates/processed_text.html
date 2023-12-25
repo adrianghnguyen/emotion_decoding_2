@@ -6,8 +6,7 @@
     </head>
     <body>
         <h2>Submitted text</h2>
-        <p>{{ input_text }}</p>
-        
+        <p id ="inputText">{{ input_text }}</p>
         <h2>Emotion label scores</h2>
         <ul>
             {% for result in emotion_results %}
@@ -33,24 +32,25 @@
         {
             // Existing code
             let key_name = new Date().getTime();
-            let input_text = "{{input_text}}";
+            let input_text = document.getElementById('inputText').innerText;
             let emotion_results = {{ emotion_results|tojson }};
             let timestamp = new Date().toISOString();
-    
+            
             let jsonObject = {
-                inputText: input_text,
                 emotionResults: emotion_results,
+                inputText: input_text,
                 timestamp: timestamp
             };
     
             // Convert the object to a JSON string
-            let jsonString = JSON.stringify(jsonObject);
+            
     
             // Logging key_name and jsonString
-            console.log(key_name);
-            console.log(jsonString);
+            //console.log(key_name);
+            //console.log(jsonString);
     
             // Storing data in localStorage
+            let jsonString = JSON.stringify(jsonObject);
             localStorage.setItem(key_name, jsonString);
         });
     </script>
