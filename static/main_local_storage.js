@@ -7,7 +7,7 @@ function process_local_storage() {
         const parsed_data = JSON.parse(raw_data_payload);
         
         // Place data into individualHTML div block
-        const outputElement = document.createElement('div');
+        const outputElement = document.createElement('div'); // This line is creating a second-nested row of divs. IDK Why.
         html_content = process_data_html(parsed_data);
         outputElement.innerHTML = html_content;
         document.body.appendChild(outputElement)
@@ -20,13 +20,20 @@ function process_data_html(parsed_data) {
     original_input = parsed_data.inputText
     payload_emotion_results = parsed_data.emotionResults
 
-    var html_content = `<div>`
+    var html_content = `<div id=${parsed_data.keyName}>`
     html_content += `<h3>${timestamp}</h3>`;
-    html_content += `Input text: ${original_input}<br>`;
+    html_content += `Input text: ${original_input}`;
 
-    // Emotions need to be processed by each individual entry
-    payload_emotion_results.forEach(emotion_result =>{
-        html_content += JSON.stringify(emotion_result) //Stringified otherwise renders as object object
+    // Unpacks the emotion object into its individual score lines per emotion
+    html_content += `<ul>` // Why is this staying out of line instead of being nested inside?
+
+    payload_emotion_results.forEach(emotion_line =>{
+        
+        if (emotion_line.filter){ // Removing based on pre-filter model attribute
+            html_content += `<li>${emotion_line.emotion} (${emotion_line.definition}) detected with a score of ${emotion_line.score.toFixed(3)}</li>`
+        }
+    html_content += `</ul>`
+
     })
 
     // emotion_print = JSON.stringify(arr_emotion_results, null, 4)
