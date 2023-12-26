@@ -19,5 +19,9 @@ def processed_emotion():
 def all_results():
     return render_template('all_results.html')
 
+@app.route('/sunburst', methods=['GET'])
+def sunburst():
+    return render_template('sunburst.html')
+
 if __name__ == "__main__":
     app.run()

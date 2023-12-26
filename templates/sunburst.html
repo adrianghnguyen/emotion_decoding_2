@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %} Sunburst chart test {% endblock %}
+{% block head %}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+{% endblock %}
+{% block content %}
+<div id="myChart" style="width:600px;height:250px;"></div>
+<script type="text/javascript" src="{{ url_for('static', filename='render_sunburst.js') }}"></script>
+{% endblock %}
