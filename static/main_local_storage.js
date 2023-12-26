@@ -3,16 +3,36 @@ function process_local_storage() {
     
     // Do stuff for each saved submission entry
     all_local_keys.forEach(individual_key => {
-        // Declare variables using var, let, or const
         const raw_data_payload = localStorage.getItem(individual_key);
         const parsed_data = JSON.parse(raw_data_payload);
-        process_data(parsed_data);
+        
+        // Place data into individualHTML div block
+        const outputElement = document.createElement('div');
+        html_content = process_data_html(parsed_data);
+        outputElement.innerHTML = html_content;
+        document.body.appendChild(outputElement)
     });
 }
 
-function process_data(parsed_data) {
-    console.log(parsed_data);
+// Processes the previous submission entries and returns it as HTML
+function process_data_html(parsed_data) {
+    timestamp = parsed_data.timestamp
+    original_input = parsed_data.inputText
+    arr_emotion_results = parsed_data.emotion_results
+
+    var html_content = `<div>`
+    html_content += `<h3>${timestamp}</h3>`;
+    html_content += `Input text: ${original_input}<br>`;
+
+    // Emotions need to be processed by each individual entry
+    emotion_print = JSON.stringify(arr_emotion_results, null, 4)
+    html_content += `<br>${emotion_print}<br>`
+    html_content += `</div>`
+
+    console.log(html_content)
+    return html_content
 }
 
-console.log('Processing local storage script')
-process_local_storage();
+document.addEventListener('DOMContentLoaded', function() {
+    process_local_storage();
+});
