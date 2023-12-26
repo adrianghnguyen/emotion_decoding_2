@@ -37,21 +37,25 @@
             let timestamp = new Date().toISOString();
             
             let jsonObject = {
+                keyName: key_name,
                 emotionResults: emotion_results,
                 inputText: input_text,
                 timestamp: timestamp
             };
     
-            // Convert the object to a JSON string
+        // Storing data in localStorage
+        try {
             
-    
-            // Logging key_name and jsonString
-            //console.log(key_name);
-            //console.log(jsonString);
-    
-            // Storing data in localStorage
             let jsonString = JSON.stringify(jsonObject);
             localStorage.setItem(key_name, jsonString);
+            
+            // Success message
+            console.log("Wrote submission entry to local storage");
+        } catch (error) {
+            // Error message if storing fails
+            console.error("Failed to save submission to local storage", error);
+        }
+
         });
     </script>
 
