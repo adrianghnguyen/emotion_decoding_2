@@ -16,31 +16,26 @@ function process_local_storage() {
 
 // Processes the previous submission entries and returns it as HTML
 function process_data_html(parsed_data) {
+    //TODO: Make this into a container for bootstrap. Remove the rendering html div block from the process_local_storage function?
     timestamp = parsed_data.timestamp
     original_input = parsed_data.inputText
     payload_emotion_results = parsed_data.emotionResults
 
     var html_content = `<div id=${parsed_data.keyName}>`
     html_content += `<h3>${timestamp}</h3>`;
-    html_content += `Input text: ${original_input}`;
+    html_content += `${original_input}`;
 
     // Unpacks the emotion object into its individual score lines per emotion
-    html_content += `<ul>`; // Why is this staying out of line instead of being nested inside?
+    html_content += `<ul>`;
 
     payload_emotion_results.forEach(emotion_line =>{
         
         if (emotion_line.filter){ // Removing based on pre-filter model attribute
             html_content += `<li>${emotion_line.emotion} (${emotion_line.definition}) detected with a score of ${emotion_line.score.toFixed(3)}</li>`
         }
-    
-
     })
 
     html_content += `</ul>`
-
-    // emotion_print = JSON.stringify(arr_emotion_results, null, 4)
-    // html_content += `<br>${emotion_print}<br>`
-    // html_content += `</div>`
     return html_content
 }
 
