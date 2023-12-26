@@ -1,5 +1,5 @@
 function process_local_storage() {
-    const all_local_keys = Object.keys(localStorage);
+    const all_local_keys = Object.keys(localStorage).sort(); //Sorted in old->new order based on key timestamp
 
     // Create a container div to hold all entries
     const containerElement = document.createElement('div');
@@ -28,7 +28,7 @@ function process_data_html(parsed_data) {
     const payload_emotion_results = parsed_data.emotionResults;
 
     let html_content = `<div id=${parsed_data.keyName}>`;
-    html_content += `<h3>${timestamp}</h3>`;
+    html_content += `<h4>${timestamp}</h4>`;
     html_content += `${original_input}`;
 
     // Unpacks the emotion object into its individual score lines per emotion

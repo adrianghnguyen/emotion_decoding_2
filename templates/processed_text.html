@@ -1,50 +1,49 @@
 {% extends "base.html" %}
 {% block title %} Processed entry {% endblock %}
 {% block content %}
-<p id ="inputText">{{ input_text }}</p>
-<h4>Emotion label scores</h4>
-<ul>
-    {% for result in emotion_results %}
-        {% if result.get("filter") == True %}
-            <li>
-                
-                {{ result.get("emotion")|capitalize }} ({{ result.get("definition")}}) presence detected with a score of
-                <b>{{result.get("score")|round(2)}}</b>
-                
-            </li>
-        {% endif %}
-    {% endfor %}
-</ul>
-All values <b><{{ filtering_threshold }} </b> have been filtered.
-<script>
-    <!-- Write in submitted values to local storage. Keep as local script to pass in results -->
-    document.addEventListener('DOMContentLoaded', function()
-    {
-        // Existing code
-        let key_name = new Date().getTime();
-        let input_text = document.getElementById('inputText').innerText;
-        let emotion_results = {{ emotion_results|tojson }};
-        let timestamp = new Date().toISOString();
-        
-        let jsonObject = {
-            keyName: key_name,
-            emotionResults: emotion_results,
-            inputText: input_text,
-            timestamp: timestamp
-        };
-
-    // Storing data in localStorage
-    try {
-        
-        let jsonString = JSON.stringify(jsonObject);
-        localStorage.setItem(key_name, jsonString);
-        
-        // Success message
-        console.log("Wrote submission entry to local storage");
-    } catch (error) {
-        // Error message if storing fails
-        console.error("Failed to save submission to local storage", error);
-    }
-    });
-</script>
+    <p id ="inputText">{{ input_text }}</p>
+    <ul>
+        {% for result in emotion_results %}
+            {% if result.get("filter") == True %}
+                <li>
+                    
+                    {{ result.get("emotion")|capitalize }} ({{ result.get("definition")}}) presence detected with a score of
+                    <b>{{result.get("score")|round(2)}}</b>
+                    
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    All values <b><{{ filtering_threshold }} </b> have been filtered.
+    <script>
+        <!-- Write in submitted values to local storage. Keep as local script to pass in results -->
+        document.addEventListener('DOMContentLoaded', function()
+        {
+            // Existing code
+            let key_name = new Date().getTime();
+            let input_text = document.getElementById('inputText').innerText;
+            let emotion_results = {{ emotion_results|tojson }};
+            let timestamp = new Date().toISOString();
+            
+            let jsonObject = {
+                keyName: key_name,
+                emotionResults: emotion_results,
+                inputText: input_text,
+                timestamp: timestamp
+            };
+    
+        // Storing data in localStorage
+        try {
+            
+            let jsonString = JSON.stringify(jsonObject);
+            localStorage.setItem(key_name, jsonString);
+            
+            // Success message
+            console.log("Wrote submission entry to local storage");
+        } catch (error) {
+            // Error message if storing fails
+            console.error("Failed to save submission to local storage", error);
+        }
+        });
+    </script>
 {% endblock %}
