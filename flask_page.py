@@ -4,7 +4,7 @@ from feelings_detection import process_single_result
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
-def form():
+def home():
     return render_template('index.html')
 
 @app.route('/processed_emotion', methods=['GET', 'POST'])
