@@ -3,6 +3,7 @@ function process_local_storage() {
 
     // Create a container div to hold all entries
     const containerElement = document.createElement('div');
+    containerElement.classList.add('container');
 
     // Do stuff for each saved submission entry
     all_local_keys.forEach(individual_key => {
