@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>All previous results</title>
-</head>
-<body>
-    <h1>Displaying all previous results from local storage</h1>
-</body>
-    <div id="storedSubmissions"></div>
+{% extends "base.html" %}
+{% block title %} Home Page {% endblock %}
+{% block content %}
+<div id="storedSubmissions"></div>
 <!--    <script type="text/javascript" src="{{ url_for('static', filename='old_display_storage.js') }}"></script>-->
     <script type="text/javascript" src="{{ url_for('static', filename='main_local_storage.js') }}"></script>
-</html>
+{% endblock %}
+
