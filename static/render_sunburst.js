@@ -1,18 +1,25 @@
-var data = [{
-  type: "sunburst",
-  labels: ["Eve", "Cain", "Seth", "Enos", "Noam", "Abel", "Awan", "Enoch", "Azura"],
-  parents: ["", "Eve", "Eve", "Seth", "Seth", "Eve", "Eve", "Awan", "Eve" ],
-  values:  [10, 14, 12, 10, 2, 6, 6, 4, 4],
-  outsidetextfont: {size: 20, color: "#377eb8"},
-  leaf: {opacity: 0.4},
-  marker: {line: {width: 2}},
-}];
+//var file = 'https://raw.githubusercontent.com/plotly/datasets/master/coffee-flavors.csv'
+var file = 'static/emotions_mapping.csv'
 
-var layout = {
-  margin: {l: 0, r: 0, b: 0, t: 0},
-  width: 500,
-  height: 500
-};
+d3.csv(file, function(err, rows){
+  function unpack(rows, key) {
+  return rows.map(function(row) {return row[key]})
+}
 
+  var data = [{
+        type: "sunburst",
+        maxdepth: 3,
+        ids: unpack(rows, 'ids'),
+        labels: unpack(rows, 'labels'),
+        parents: unpack(rows, 'parents'),
+        textposition: 'inside',
+        insidetextorientation: 'radial'
+  }]
 
-Plotly.newPlot('myChart', data, layout);
+  var layout = {
+        margin: {l: 0, r: 0, b: 0, t:0},
+        paper_bgcolor: 'rgba(0,0,0,0)'
+  }
+
+  Plotly.newPlot('myChart', data, layout)
+})
