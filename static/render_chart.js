@@ -1,59 +1,22 @@
-var emotionsArray = [
-  'admiration',
-  'amusement',
-  'anger',
-  'annoyance',
-  'approval',
-  'caring',
-  'confusion',
-  'curiosity',
-  'desire',
-  'disappointment',
-  'disapproval',
-  'disgust',
-  'embarrassment',
-  'excitement',
-  'fear',
-  'gratitude',
-  'grief',
-  'joy',
-  'love',
-  'nervousness',
-  'neutral',
-  'optimism',
-  'pride',
-  'realization',
-  'relief',
-  'remorse',
-  'sadness',
-  'surprise'
-]
+function renderChart() {
+  const ctx = document.getElementById('myChart');
 
-var randomValuesArray = [];
-for (var i = 0; i < 20; i++) {
-  var randomValue = Math.random(); // Generates a random value between 0 (inclusive) and 1 (exclusive)
-  randomValuesArray.push(randomValue);
-}
-
-
-data = [{
-  type: 'scatterpolar',
-  theta: emotionsArray, // TODO: Values should be passed in by clusters - positive, negative, neutral, ambiguous in order to section them
-  r: randomValuesArray,
-  fill: 'toself'
-}]
-
-layout = {
-  polar: {
-    radialaxis: {
-      visible: true,
-      range: [0, 1]
+    new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
     }
-  },
-  showlegend: true,
-  title: 'Radar chart',
-//  paper_bgcolor: 'rgba(255, 0, 0, 0)',
+    });
 }
-
-
-Plotly.newPlot("myChart", data, layout)
