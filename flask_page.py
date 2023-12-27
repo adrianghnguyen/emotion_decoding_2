@@ -21,7 +21,7 @@ def all_results():
 
 @app.route('/sunburst', methods=['GET'])
 def sunburst():
-    return render_template('sunburst.html')
+    return render_template('chart.html')
 
 if __name__ == "__main__":
     app.run()

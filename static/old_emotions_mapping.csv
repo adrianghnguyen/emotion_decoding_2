@@ -1,0 +1,11 @@
+ids,labels,parents
+negative-root,Negative,
+positive-root,Positive,
+ambiguous-root,Ambiguous,
+neutral-root,Neutral
+negative-anger,Anger,negative-root
+negative-disgust,Disgust,negative-root
+negative-fear,Fear,negative-root
+neutral-neutral,Neutral,neutral-root
+positive-joy,Joy,positive-root
+ambiguous-surprise,Surprise,ambiguous-root
