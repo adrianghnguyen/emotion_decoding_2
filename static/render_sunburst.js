@@ -8,12 +8,12 @@ d3.csv(file, function(err, rows){
 
   var data = [{
         type: "sunburst",
-        maxdepth: 3,
+        maxdepth: 4,
         ids: unpack(rows, 'ids'),
         labels: unpack(rows, 'labels'),
         parents: unpack(rows, 'parents'),
         textposition: 'inside',
-        insidetextorientation: 'radial'
+        insidetextorientation: 'horizontal'
   }]
 
   var layout = {
