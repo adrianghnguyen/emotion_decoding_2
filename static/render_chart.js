@@ -6,10 +6,14 @@ function retrieveLatestStoredLocalStorage(){
     const latest_data_payload = localStorage.getItem(latest_key);
     const parsed_data = JSON.parse(latest_data_payload)
 
-    console.log('Returning latest stored key')
-    console.log(parsed_data)
+    console.log('Retrieving latest stored key from local storage')
 
     return parsed_data
+}
+
+function retrieveLatestEmotionObject(){
+    console.log('Retrieving only the emotion_results from the latest item in local_storage')
+    return retrieveLatestStoredLocalStorage().emotionResults
 }
 
 function createRadarChart(labels_var, data_var, chart_title, element_id)
@@ -100,9 +104,11 @@ function sorted_emotions(emotions_results){
 }
 
 
+// Detailed radar chart for all 28 emotion scores
 function render_latest_radar(chart_title, element_id) {
+    // Placing the data into the correct format for the radar chart to be created
+    console.log('Creating detailed radar chart')
     const parsed_data_emotion_results = retrieveLatestStoredLocalStorage().emotionResults
-    console.log(parsed_data_emotion_results)
 
     // Need to sort the data before placing it into the array in order to 'cluster' them by overall sentiment (positive/negative/etc.)
     sorted_data = sorted_emotions(parsed_data_emotion_results)
@@ -111,8 +117,7 @@ function render_latest_radar(chart_title, element_id) {
     var data_array = [];
     var labels_array = [];
 
-    // Placing the data into the correct format for the radar chart to be created
-    console.log('Radar chart values produced')
+
 
 //    parsed_data_emotion_results.forEach((individual_result) => {
 //        console.log(`${individual_result.emotion},${individual_result.score}`)
@@ -138,8 +143,41 @@ function render_latest_radar(chart_title, element_id) {
     createRadarChart(labels_array, data_array, chart_title, element_id)
 }
 
+// Helper function to get unique values based on a specific attribute
+const getUniqueValues = (array, attribute) => {
+  const uniqueValuesSet = new Set(array.map(item => item[attribute]));
+  return Array.from(uniqueValuesSet);
+};
+
+// Function to calculate the average of a specific attribute
+const calculateAverage = (array, attribute) => {
+  const attributeValues = array.map(item => item[attribute]);
+
+  // Check if attributeValues is not empty to avoid division by zero
+  if (attributeValues.length === 0) {
+    return 0;
+  }
+
+  const sum = attributeValues.reduce((acc, value) => acc + value, 0);
+  const average = sum / attributeValues.length;
+  return average;
+};
+
+function radarEmotionCategories(element_id){
+    console.log('Creating higher-level emotion categories categories')
+    const latest_emotion_object = retrieveLatestEmotionObject()
+    const higher_emotion_categories = getUniqueValues(latest_emotion_object, 'emotion_category') // This will become the label
+
+    console.log(latest_emotion_object)
+
+    var higher_emotion_data = []
+    average_score = calculateAverage(latest_emotion_object, 'score')
+    console.log(average_score)
+
+}
+
 // Takes in emotion results and adds the values of 0 if not in the category, or adds it to create 'leaves' of data
-// which can be  different sets of data in the radar chart
+// which can be  different sets of data in the radar chart  -- deprecated function to remove?
 function createRadarSliceData(emotion_result, category) {
   const data = [];
 
