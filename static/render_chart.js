@@ -73,3 +73,36 @@ function render_latest_radar(chart_title, element_id) {
     //Make the chart
     createRadarChart(labels_array, data_array, chart_title, element_id)
 }
+
+function createMultiRadarChart(labels_var, dataset_var, element_id)
+{
+    const data = {
+      labels: labels_var,
+      datasets: dataset_var
+    };
+
+    const config = {
+      type: 'radar',
+      data: data,
+      options: {
+        spanGaps: false,
+        scales: {
+            r: {
+                angleLines: {
+                    display: false
+                },
+                suggestedMin: 0,
+                suggestedMax: 1
+            }
+        },
+        elements: {
+          line: {
+            borderWidth: 2
+          }
+        }
+      },
+    };
+
+    const ctx = document.getElementById(element_id).getContext('2d');
+    new Chart(ctx, config);
+}
