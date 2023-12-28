@@ -1,3 +1,9 @@
+function get_latest_emotion_result(){
+  const latest_key = Object.keys(localStorage).sort()[0]; // Grab one key
+  const raw_data_payload = localStorage.getItem(latest_key);
+  return JSON.parse(raw_data_payload).emotionResults;
+}
+
 function createRadarChart(labels_var, data_var, chart_title, element_id)
 {
     const data = {
@@ -74,35 +80,70 @@ function render_latest_radar(chart_title, element_id) {
     createRadarChart(labels_array, data_array, chart_title, element_id)
 }
 
-function createMultiRadarChart(labels_var, dataset_var, element_id)
+
+
+function createRadarSliceData(emotion_result, category) {
+  const data = [];
+
+  for (const emotion_score of emotion_result) {
+    if (emotion_score.emotion_category === category) {
+      data.push(emotion_score.score);
+    } else {
+      data.push(0);
+    }
+  }
+
+  const radar_slice = {
+    label: category,
+    data: data
+  };
+
+  return radar_slice;
+}
+
+function createMultiRadarChart(element_id) // labels_var, dataset_var, element_id  
 {
+  const emotion_result = get_latest_emotion_result();
+  const test_labels_var = emotion_result.map(result => result.emotion);
+  const emotion_categories = Array.from(new Set(emotion_result.map(result => result.emotion_category)));
+  
+  // Iterate over each emotion category and create radar slices
+  // for (const category of emotion_categories) {
+  //     var resultObject = createRadarSlice(emotion_result, category)
+  //     dataset_var.push(resultObject);    
+  //   };
+  
+  var resulting_slice = createRadarSliceData(emotion_result, 'ambiguous')
+  console.log(resulting_slice)
+  dataset_var = [resulting_slice]
+
     const data = {
-      labels: labels_var,
-      datasets: dataset_var
+      labels: test_labels_var,
+      datasets: dataset_var,
     };
 
-    const config = {
-      type: 'radar',
-      data: data,
-      options: {
-        spanGaps: false,
-        scales: {
-            r: {
-                angleLines: {
-                    display: false
-                },
-                suggestedMin: 0,
-                suggestedMax: 1
-            }
-        },
-        elements: {
-          line: {
-            borderWidth: 2
+  const config = {
+    type: 'radar',
+    data: data,
+    options: {
+      spanGaps: false,
+      scales: {
+          r: {
+              angleLines: {
+                  display: false
+              },
+              suggestedMin: 0,
+              suggestedMax: 1
           }
-        }
       },
-    };
+      elements: {
+        line: {
+          borderWidth: 2
+        }
+      }
+    },
+  };
 
-    const ctx = document.getElementById(element_id).getContext('2d');
-    new Chart(ctx, config);
+   const ctx = document.getElementById(element_id).getContext('2d');
+   new Chart(ctx, config);
 }
