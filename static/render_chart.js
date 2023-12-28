@@ -11,6 +11,7 @@ function retrieveLatestStoredLocalStorage(){
     return parsed_data
 }
 
+// Processes the local storage object to only return the emotionResults object
 function retrieveLatestEmotionObject(){
     console.log('Retrieving only the emotion_results from the latest item in local_storage')
     return retrieveLatestStoredLocalStorage().emotionResults
@@ -59,6 +60,7 @@ function createRadarChart(labels_var, data_var, chart_title, element_id)
     new Chart(ctx, config);
 }
 
+// Returns object of emotionResults in an order which clusters them by higher emotion_order categories (positive/negative/ambiguous/neutral)
 function sorted_emotions(emotions_results){
 
     const emotionsOrder = [
@@ -173,6 +175,7 @@ function allCategoryScores(emotion_object, category){
     return temp_all_scores
 }
 
+// For an emotionResults array, use specific emotion_category to return the average value for its score attribute
 function averageCategoryScore(latest_emotion_object, category){
   
   all_scores = allCategoryScores(latest_emotion_object, category)
@@ -194,14 +197,13 @@ function allAverageCategoryScores(latest_emotion_object, list_of_categories){
   return temp_all_average_scores
 }
 
-function radarEmotionCategories(element_id){
+function radarEmotionCategories(element_id){ // Right now hard-coded to do it off the latest results
     console.log('Creating higher-level emotion categories categories')
     const latest_emotion_object = retrieveLatestEmotionObject()
     const higher_emotion_categories = getUniqueValues(latest_emotion_object, 'emotion_category') // This will become the label
+    chart_data = allAverageCategoryScores(latest_emotion_object, higher_emotion_categories)
 
-    console.log(latest_emotion_object)
-    temp_data = allAverageCategoryScores(latest_emotion_object, higher_emotion_categories)
-    console.log(temp_data)
+    createRadarChart(higher_emotion_categories, chart_data, 'Emotion categories average', 'myChart')
 }
 
 // Takes in emotion results and adds the values of 0 if not in the category, or adds it to create 'leaves' of data
