@@ -2,7 +2,45 @@
 {% block title %} Home Page {% endblock %}
 {% block content %}
 <div id="storedSubmissions"></div>
-<!--    <script type="text/javascript" src="{{ url_for('static', filename='old_display_storage.js') }}"></script>-->
-    <script type="text/javascript" src="{{ url_for('static', filename='main_local_storage.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='main_local_storage.js') }}"></script>
+<script>
+	function clearLocalStorage() {
+	localStorage.clear();
+	console.log('Local storage has been cleared')
+<!--	alert('Local Storage cleared!');-->
+<!--	$('#clearLocalStorageModal').modal('hide');-->
+	}
+</script>
+
+
+<div class="container">
+	<!-- Warning Red Button to trigger the modal -->
+	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#clearLocalStorageModal">
+	  Clear all previous entries
+	</button>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="clearLocalStorageModal" tabindex="-1" role="dialog" aria-labelledby="clearLocalStorageModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="clearLocalStorageModalLabel">Clear Local Storage</h5>
+	        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        Are you sure you want to clear your local storage in the browser? This will make you lose all your
+	        previous entries.
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+	        <button type="button" class="btn btn-danger" onclick="clearLocalStorage()">Clear</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</div>
+
 {% endblock %}
 
