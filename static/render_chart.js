@@ -163,6 +163,21 @@ const calculateAverage = (array, attribute) => {
   return average;
 };
 
+
+// Return all scores for a specific category
+function categoryScore(latest_emotion_object, category){
+
+    var temp_all_scores = []
+
+    for(line of latest_emotion_object){
+        if(line.emotion_category == category){ // Need to look into making this generic?
+            temp_all_scores.push(line.score)
+        }
+    }
+
+    return temp_all_scores
+}
+
 function radarEmotionCategories(element_id){
     console.log('Creating higher-level emotion categories categories')
     const latest_emotion_object = retrieveLatestEmotionObject()
@@ -170,9 +185,12 @@ function radarEmotionCategories(element_id){
 
     console.log(latest_emotion_object)
 
-    var higher_emotion_data = []
-    average_score = calculateAverage(latest_emotion_object, 'score')
-    console.log(average_score)
+    positive_scores = categoryScore(latest_emotion_object, 'negative')
+    console.log(positive_scores)
+
+//    var higher_emotion_data = []
+//    average_score = calculateAverage(latest_emotion_object, 'score')
+//    console.log(average_score)
 
 }
 
