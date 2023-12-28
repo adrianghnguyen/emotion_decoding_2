@@ -137,7 +137,7 @@ function radarDetailed(obj_emotion_result, element_id) {
 
 
   //Make the chart
-  createRadarChart(labels_array, data_array, 'Detailed radar chart', element_id)
+  createRadarChart(labels_array, data_array, 'Emotion score', element_id)
 }
 
 // Helper function to get unique values based on a specific attribute
@@ -203,5 +203,5 @@ function radarEmotionCategories(emotion_result_object, element_id) { // Right no
 
   chart_data = allAverageCategoryScores(filtered_emotion_object, higher_emotion_categories)
 
-  createRadarChart(higher_emotion_categories, chart_data, 'Emotion categories average', element_id)
+  createRadarChart(higher_emotion_categories, chart_data, 'Category average', element_id)
 }
