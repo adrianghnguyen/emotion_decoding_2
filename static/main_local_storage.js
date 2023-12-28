@@ -41,8 +41,9 @@ function process_data_html(parsed_data) {
     const payload_emotion_results = parsed_data.emotionResults;
 
     let html_content = `<div id=${parsed_data.keyName}>`;
+    html_content += `<hr>`;
     html_content += `<h4>${timestamp}</h4>`;
-    html_content += `${original_input}`;
+    html_content += `<p>${original_input}</p>`;
 
     // Unpacks the emotion object into its individual score lines per emotion
     html_content += `<ul>`;
