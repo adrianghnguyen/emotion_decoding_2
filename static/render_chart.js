@@ -196,17 +196,16 @@ function allAverageCategoryScores(emotion_object, list_of_categories) {
   return temp_all_average_scores
 }
 
-function radarEmotionCategories(element_id) { // Right now hard-coded to do it off the latest results
+function radarEmotionCategories(emotion_result_object, element_id) { // Right now hard-coded to do it off the latest results
   console.log('Creating higher-level emotion categories categories')
-  const latest_emotion_object = retrieveLatestEmotionObject()
-  const higher_emotion_categories = getUniqueValues(latest_emotion_object, 'emotion_category') // This will become the label
+  const higher_emotion_categories = getUniqueValues(emotion_result_object, 'emotion_category') // This will become the label
   
   // Filter the values in order to avoid zero-values of emotion_scores dragging down the average
-  filtered_emotion_object = latest_emotion_object.filter((emotion_result) => emotion_result.filter)
+  filtered_emotion_object = emotion_result_object.filter((emotion_result) => emotion_result.filter)
 
   chart_data = allAverageCategoryScores(filtered_emotion_object, higher_emotion_categories)
 
-  createRadarChart(higher_emotion_categories, chart_data, 'Emotion categories average', 'myChart')
+  createRadarChart(higher_emotion_categories, chart_data, 'Emotion categories average', element_id)
 }
 
 // Takes in emotion results and adds the values of 0 if not in the category, or adds it to create 'leaves' of data

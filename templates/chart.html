@@ -12,13 +12,15 @@
       }
     </style>
     <div class="container" id="custom-container">
-        <canvas id="myChart"></canvas>
+        <canvas id="radarEmotionCategories"></canvas>
     </div>
     <div class="container" id="custom-container">
-        <canvas id="multiRadarChart"></canvas>
+        <canvas id="detailedRadar"></canvas>
     </div>
 <script>
-radarEmotionCategories('myChart')
-//render_latest_radar('Emotion score', 'myChart')
+
+latest_emotion_result = retrieveLatestEmotionObject()
+radarEmotionCategories(latest_emotion_result, 'radarEmotionCategories')
+render_latest_radar('Emotion score', 'detailedRadar')
 </script>
 {% endblock %}
