@@ -25,8 +25,8 @@ def find_emotion_category(emotion):
 
     emotions_category = {
         'positive': ['admiration', 'amusement', 'approval', 'caring', 'desire', 'excitement', 'gratitude', 'joy', 'love', 'optimism', 'pride', 'relief'],
-        'negative': ['anger', 'annoyance', 'disappointment', 'disapproval', 'disgust', 'embarassment', 'fear', 'grief', 'nervousness', 'remorse', 'sadness'],
-        'ambiguous': ['confusion', 'curiosity', 'realization, surprise'],
+        'negative': ['anger', 'annoyance', 'disappointment', 'disapproval', 'disgust', 'embarrassment', 'fear', 'grief', 'nervousness', 'remorse', 'sadness'],
+        'ambiguous': ['confusion', 'curiosity', 'realization', 'surprise'],
         'neutral': ['neutral']
     }
 
