@@ -149,33 +149,49 @@ const getUniqueValues = (array, attribute) => {
   return Array.from(uniqueValuesSet);
 };
 
-// Function to calculate the average of a specific attribute
-const calculateAverage = (array, attribute) => {
-  const attributeValues = array.map(item => item[attribute]);
+function calculateAverage(array) {
+    if (array.length === 0) {
+        return 0; // Handle the case where the array is empty to avoid division by zero
+    }
 
-  // Check if attributeValues is not empty to avoid division by zero
-  if (attributeValues.length === 0) {
-    return 0;
-  }
+    const sum = array.reduce((acc, value) => acc + value, 0);
+    const average = sum / array.length;
+    return average;
+}
 
-  const sum = attributeValues.reduce((acc, value) => acc + value, 0);
-  const average = sum / attributeValues.length;
-  return average;
-};
-
-
-// Return all scores for a specific category
-function categoryScore(latest_emotion_object, category){
+// Return all scores for attribute emotion_category in emotion_object
+function allCategoryScores(emotion_object, category){
 
     var temp_all_scores = []
 
-    for(line of latest_emotion_object){
-        if(line.emotion_category == category){ // Need to look into making this generic?
+    for(line of emotion_object){
+        if(line.emotion_category == category){ // Need to look into making this generic? Add a parameter named attribute?
             temp_all_scores.push(line.score)
         }
     }
 
     return temp_all_scores
+}
+
+function averageCategoryScore(latest_emotion_object, category){
+  
+  all_scores = allCategoryScores(latest_emotion_object, category)
+  average = calculateAverage(all_scores)
+  console.log(`Average score for ${category} is ${average}`)
+  return average
+}
+
+// Takes list of categories and returns an array of their averages in order passed in
+function allAverageCategoryScores(latest_emotion_object, list_of_categories){
+    
+  temp_all_average_scores = [] 
+
+  for(category of list_of_categories){
+      result = averageCategoryScore(latest_emotion_object, category)
+      temp_all_average_scores.push(result)
+    }
+
+  return temp_all_average_scores
 }
 
 function radarEmotionCategories(element_id){
@@ -184,14 +200,8 @@ function radarEmotionCategories(element_id){
     const higher_emotion_categories = getUniqueValues(latest_emotion_object, 'emotion_category') // This will become the label
 
     console.log(latest_emotion_object)
-
-    positive_scores = categoryScore(latest_emotion_object, 'negative')
-    console.log(positive_scores)
-
-//    var higher_emotion_data = []
-//    average_score = calculateAverage(latest_emotion_object, 'score')
-//    console.log(average_score)
-
+    temp_data = allAverageCategoryScores(latest_emotion_object, higher_emotion_categories)
+    console.log(temp_data)
 }
 
 // Takes in emotion results and adds the values of 0 if not in the category, or adds it to create 'leaves' of data
