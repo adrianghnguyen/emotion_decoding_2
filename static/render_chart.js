@@ -105,7 +105,7 @@ function render_latest_radar(chart_title, element_id) {
     console.log(parsed_data_emotion_results)
 
     // Need to sort the data before placing it into the array in order to 'cluster' them by overall sentiment (positive/negative/etc.)
-//    sorted_data = sorted_emotions(parsed_data_emotion_results)
+    sorted_data = sorted_emotions(parsed_data_emotion_results)
 //    console.log(sorted_data)
 
     var data_array = [];
@@ -114,11 +114,25 @@ function render_latest_radar(chart_title, element_id) {
     // Placing the data into the correct format for the radar chart to be created
     console.log('Radar chart values produced')
 
-    parsed_data_emotion_results.forEach((individual_result) => {
-        console.log(`${individual_result.emotion},${individual_result.score}`)
-        data_array.push(individual_result.score)
+//    parsed_data_emotion_results.forEach((individual_result) => {
+//        console.log(`${individual_result.emotion},${individual_result.score}`)
+//        data_array.push(individual_result.score)
+//        labels_array.push(individual_result.emotion);
+//    });
+
+    sorted_data.forEach((individual_result) => {
+
+        // Set values which don't pass the filter to 0 to not clog up the radar chart
+        if(individual_result.filter){
+            data_array.push(individual_result.score)
+        }
+        else{
+            data_array.push(null)
+        }
+
         labels_array.push(individual_result.emotion);
     });
+
 
     //Make the chart
     createRadarChart(labels_array, data_array, chart_title, element_id)
