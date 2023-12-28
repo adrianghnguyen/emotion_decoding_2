@@ -7,6 +7,7 @@ file_name = "onnx/model_quantized.onnx"
 model = ORTModelForSequenceClassification.from_pretrained(model_id, file_name=file_name)
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 
+
 def label_emotion_scores(input_text):
     onnx_classifier = pipeline(
         task="text-classification",
@@ -19,6 +20,20 @@ def label_emotion_scores(input_text):
     model_outputs_results = onnx_classifier(input_text)
 
     return model_outputs_results
+
+def find_emotion_category(emotion):
+
+    emotions_category = {
+        'positive': ['admiration', 'amusement', 'approval', 'caring', 'desire', 'excitement', 'gratitude', 'joy', 'love', 'optimism', 'pride', 'relief'],
+        'negative': ['anger', 'annoyance', 'disappointment', 'disapproval', 'disgust', 'embarrassment', 'fear', 'grief', 'nervousness', 'remorse', 'sadness'],
+        'ambiguous': ['confusion', 'curiosity', 'realization', 'surprise'],
+        'neutral': ['neutral']
+    }
+
+    for category, emotions in emotions_category.items():
+        if emotion in emotions:
+            return category
+    return None  # Return None if the emotion is not found in any category
 
 
 def enhanced_results_scores(results, filter_score):
@@ -60,6 +75,8 @@ def enhanced_results_scores(results, filter_score):
     }
     emotions_dict.setdefault('No definition found')
 
+
+
     # Enhancing the text-classification model results with important metadata
     enhanced_results = []
 
@@ -68,6 +85,7 @@ def enhanced_results_scores(results, filter_score):
         emotion_name = emotion_result.get('label')
         enhance_emotion_result = {
             'emotion': emotion_name,  # Renaming the key from the classifier model
+            'emotion_category': find_emotion_category(emotion_name),
             'definition': emotions_dict.get(emotion_name),
             'score': emotion_result.get('score'),
             'filter': filter_score < emotion_result.get('score')  # Any scores below a certain threshold can be filtered
@@ -77,12 +95,13 @@ def enhanced_results_scores(results, filter_score):
 
     return enhanced_results
 
-def process_single_result(input_text, acceptable_filter_score):
 
+def process_single_result(input_text, acceptable_filter_score):
     single_result = label_emotion_scores(input_text)[0]
     enhanced_single_result = enhanced_results_scores(single_result, acceptable_filter_score)
 
     return enhanced_single_result
+
 
 def main():
     input_text = ("I just feel mentally exhausted you know. I don't even know why I am tired in the first place and "

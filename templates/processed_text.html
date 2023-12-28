@@ -2,27 +2,40 @@
 {% block title %} Processed entry {% endblock %}
 {% block content %}
 <div class="container">
+    <style>
+        #custom-container {
+          max-width: 500px; /* Set your desired maximum width */
+          margin: 0 auto; /* Center the container horizontally */
+        }
+      </style>
+	<div class="row">
+		      <div class="col-sm" id="custom-container">
+          <canvas id="radarEmotionCategories"></canvas>
+      </div>
+      <div class="col-sm" id="custom-container">
+          <canvas id="detailedRadar"></canvas>
+      </div>
+	</div>
+</div>
+<div class="container">
 	    <p id ="inputText">{{ input_text }}</p>
     <ul>
         {% for result in emotion_results %}
             {% if result.get("filter") == True %}
                 <li>
-                    
                     {{ result.get("emotion")|capitalize }} ({{ result.get("definition")}}) presence detected with a score of
                     <b>{{result.get("score")|round(2)}}</b>
-                    
                 </li>
             {% endif %}
         {% endfor %}
     </ul>
     All values <b><{{ filtering_threshold }} </b> have been filtered.
 </div>
-
-    <script>
+<script>
+	function saveResult(){
         <!-- Write in submitted values to local storage. Keep as local script to pass in results -->
         document.addEventListener('DOMContentLoaded', function()
         {
-            // Existing code
             let key_name = new Date().getTime();
             let input_text = document.getElementById('inputText').innerText;
             let emotion_results = {{ emotion_results|tojson }};
@@ -37,16 +50,26 @@
     
         // Storing data in localStorage
         try {
-            
             let jsonString = JSON.stringify(jsonObject);
             localStorage.setItem(key_name, jsonString);
             
             // Success message
             console.log("Wrote submission entry to local storage");
+            console.log(jsonObject)
+            renderCharts() // Callback function
         } catch (error) {
             // Error message if storing fails
             console.error("Failed to save submission to local storage", error);
         }
         });
-    </script>
+	}
+
+    function renderCharts(){
+        latest_emotion_result = retrieveLatestEmotionObject() //Executes after writing in the value?
+        radarDetailed(latest_emotion_result, 'detailedRadar')
+        radarEmotionCategories(latest_emotion_result, 'radarEmotionCategories')
+    }
+
+saveResult()
+</script>
 {% endblock %}

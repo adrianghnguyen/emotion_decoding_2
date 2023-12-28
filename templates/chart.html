@@ -1,32 +1,25 @@
 {% extends "base.html" %}
 {% block title %}Chart Test{% endblock %}
 {% block head %}
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='render_chart.js') }}"></script>
 {% endblock %}
 {% block content %}
     <style>
       #custom-container {
-        max-width: 800px; /* Set your desired maximum width */
+        max-width: 500px; /* Set your desired maximum width */
         margin: 0 auto; /* Center the container horizontally */
       }
     </style>
     <div class="container" id="custom-container">
-        <canvas id="myChart"></canvas>
+        <canvas id="radarEmotionCategories"></canvas>
+    </div>
+    <div class="container" id="custom-container">
+        <canvas id="detailedRadar"></canvas>
     </div>
 <script>
-	const label_test = [
-	    'Eating',
-	    'Drinking',
-	    'Sleeping',
-	    'Designing',
-	    'Coding',
-	    'Cycling',
-	    'Running'
-	  ]
-	const data_test = [65, 59, 90, 81, 56, 55, 40]
-	
-	//createRadarChart(label_test, data_test, 'Example radar chart', 'myChart')
-    render_latest_radar('Latest radar chart', 'myChart')
+
+latest_emotion_result = retrieveLatestEmotionObject()
+
+radarDetailed(latest_emotion_result, 'detailedRadar')
+radarEmotionCategories(latest_emotion_result, 'radarEmotionCategories')
 </script>
 {% endblock %}
