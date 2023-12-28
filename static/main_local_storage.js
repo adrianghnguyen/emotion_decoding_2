@@ -21,15 +21,29 @@ function process_local_storage() {
     document.body.appendChild(containerElement);
 }
 
+
+
 // Processes the previous submission entries and returns it as HTML
 function process_data_html(parsed_data) {
-    const timestamp = parsed_data.timestamp;
+
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    };
+
+
+    const timestamp = new Date(parsed_data.timestamp).toLocaleString('en-US', options);
     const original_input = parsed_data.inputText;
     const payload_emotion_results = parsed_data.emotionResults;
 
     let html_content = `<div id=${parsed_data.keyName}>`;
+    html_content += `<hr>`;
     html_content += `<h4>${timestamp}</h4>`;
-    html_content += `${original_input}`;
+    html_content += `<p>${original_input}</p>`;
 
     // Unpacks the emotion object into its individual score lines per emotion
     html_content += `<ul>`;

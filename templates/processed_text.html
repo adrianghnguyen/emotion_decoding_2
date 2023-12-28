@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block title %} Processed entry {% endblock %}
 {% block content %}
-    <p id ="inputText">{{ input_text }}</p>
+<div class="container">
+	    <p id ="inputText">{{ input_text }}</p>
     <ul>
         {% for result in emotion_results %}
             {% if result.get("filter") == True %}
@@ -15,6 +16,8 @@
         {% endfor %}
     </ul>
     All values <b><{{ filtering_threshold }} </b> have been filtered.
+</div>
+
     <script>
         <!-- Write in submitted values to local storage. Keep as local script to pass in results -->
         document.addEventListener('DOMContentLoaded', function()

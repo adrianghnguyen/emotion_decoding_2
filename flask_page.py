@@ -19,5 +19,9 @@ def processed_emotion():
 def all_results():
     return render_template('all_results.html')
 
+@app.route('/chart', methods=['GET'])
+def chart():
+    return render_template('chart.html')
+
 if __name__ == "__main__":
     app.run()
