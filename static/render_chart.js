@@ -6,7 +6,8 @@ function retrieveLatestStoredLocalStorage() {
   const latest_data_payload = localStorage.getItem(latest_key);
   const parsed_data = JSON.parse(latest_data_payload)
 
-  console.log('Retrieving latest stored key from local storage')
+  console.log('Retrieving latest stored payload from local storage')
+  console.log(parsed_data)
 
   return parsed_data
 }

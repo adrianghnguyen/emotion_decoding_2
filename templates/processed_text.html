@@ -2,6 +2,22 @@
 {% block title %} Processed entry {% endblock %}
 {% block content %}
 <div class="container">
+    <style>
+        #custom-container {
+          max-width: 500px; /* Set your desired maximum width */
+          margin: 0 auto; /* Center the container horizontally */
+        }
+      </style>
+	<div class="row">
+		      <div class="col-sm" id="custom-container">
+          <canvas id="radarEmotionCategories"></canvas>
+      </div>
+      <div class="col-sm" id="custom-container">
+          <canvas id="detailedRadar"></canvas>
+      </div>
+	</div>
+</div>
+<div class="container">
 	    <p id ="inputText">{{ input_text }}</p>
     <ul>
         {% for result in emotion_results %}
@@ -15,55 +31,45 @@
     </ul>
     All values <b><{{ filtering_threshold }} </b> have been filtered.
 </div>
-<div class="container">
-    <style>
-        #custom-container {
-          max-width: 500px; /* Set your desired maximum width */
-          margin: 0 auto; /* Center the container horizontally */
+<script>
+	function saveResult(){
+        <!-- Write in submitted values to local storage. Keep as local script to pass in results -->
+        document.addEventListener('DOMContentLoaded', function()
+        {
+            let key_name = new Date().getTime();
+            let input_text = document.getElementById('inputText').innerText;
+            let emotion_results = {{ emotion_results|tojson }};
+            let timestamp = new Date().toISOString();
+            
+            let jsonObject = {
+                keyName: key_name,
+                emotionResults: emotion_results,
+                inputText: input_text,
+                timestamp: timestamp
+            };
+    
+        // Storing data in localStorage
+        try {
+            let jsonString = JSON.stringify(jsonObject);
+            localStorage.setItem(key_name, jsonString);
+            
+            // Success message
+            console.log("Wrote submission entry to local storage");
+            console.log(jsonObject)
+            renderCharts() // Callback function
+        } catch (error) {
+            // Error message if storing fails
+            console.error("Failed to save submission to local storage", error);
         }
-      </style>
-      <div class="container" id="custom-container">
-          <canvas id="radarEmotionCategories"></canvas>
-      </div>
-      <div class="container" id="custom-container">
-          <canvas id="detailedRadar"></canvas>
-      </div>
-</div>
-<script>
-    <!-- Write in submitted values to local storage. Keep as local script to pass in results -->
-    document.addEventListener('DOMContentLoaded', function()
-    {
-        let key_name = new Date().getTime();
-        let input_text = document.getElementById('inputText').innerText;
-        let emotion_results = {{ emotion_results|tojson }};
-        let timestamp = new Date().toISOString();
-        
-        let jsonObject = {
-            keyName: key_name,
-            emotionResults: emotion_results,
-            inputText: input_text,
-            timestamp: timestamp
-        };
+        });
+	}
 
-    // Storing data in localStorage
-    try {
-        
-        let jsonString = JSON.stringify(jsonObject);
-        localStorage.setItem(key_name, jsonString);
-        
-        // Success message
-        console.log("Wrote submission entry to local storage");
-    } catch (error) {
-        // Error message if storing fails
-        console.error("Failed to save submission to local storage", error);
+    function renderCharts(){
+        latest_emotion_result = retrieveLatestEmotionObject() //Executes after writing in the value?
+        radarDetailed(latest_emotion_result, 'detailedRadar')
+        radarEmotionCategories(latest_emotion_result, 'radarEmotionCategories')
     }
-    });
-</script>
-<script>
-    latest_emotion_result = retrieveLatestEmotionObject()
-    radarDetailed(latest_emotion_result, 'detailedRadar')
-    radarEmotionCategories(latest_emotion_result, 'radarEmotionCategories')
-</script>
 
-
+saveResult()
+</script>
 {% endblock %}
