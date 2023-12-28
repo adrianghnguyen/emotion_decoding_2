@@ -19,6 +19,7 @@ function createRadarChart(labels_var, data_var, chart_title, element_id)
       type: 'radar',
       data: data,
       options: {
+        spanGaps: false,
         scales: {
             r: {
                 angleLines: {
@@ -55,7 +56,14 @@ function render_latest_radar(chart_title, element_id) {
 //        console.log(individual_result.emotion);
 
         // Assuming you want to push these values into arrays
-        data_array.push(individual_result.score);
+        // TODO: Remove or modify this filtering scheme
+        if(individual_result.score > 0.1){
+            data_array.push(individual_result.score);
+        }
+        else {
+            data_array.push(null)
+        }
+
         labels_array.push(individual_result.emotion);
     });
 
