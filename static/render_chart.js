@@ -17,6 +17,9 @@ function retrieveLatestEmotionObject() {
   return retrieveLatestStoredLocalStorage().emotionResults
 }
 
+// Basic radar chart builder which is going to be used by more complex ones
+Chart.defaults.color = '#FFF';
+
 function createRadarChart(labels_var, data_var, chart_title, element_id) {
   const data = {
     labels: labels_var,
@@ -24,12 +27,7 @@ function createRadarChart(labels_var, data_var, chart_title, element_id) {
       label: chart_title,
       data: data_var,
       fill: true,
-      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      borderColor: 'rgb(255, 99, 132)',
-      pointBackgroundColor: 'rgb(255, 99, 132)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgb(255, 99, 132)'
+      spanGaps: true
     }]
   };
 
@@ -40,6 +38,14 @@ function createRadarChart(labels_var, data_var, chart_title, element_id) {
       spanGaps: false,
       scales: {
         r: {
+          grid:{
+            circular: true,
+            color: 'rgba(255,255,255,0.5)'
+          },
+          ticks: {
+            showLabelBackdrop: false,
+            stepSize: 0.2
+          },
           angleLines: {
             display: false
           },
@@ -105,26 +111,16 @@ function sorted_emotions(emotions_results) {
 }
 
 
-// Detailed radar chart for all 28 emotion scores
-function render_latest_radar(chart_title, element_id) {
+// Detailed radar chart for all 28 emotion scores - TBH this chart isn't very useful
+function radarDetailed(obj_emotion_result, element_id) {
   // Placing the data into the correct format for the radar chart to be created
   console.log('Creating detailed radar chart')
-  const parsed_data_emotion_results = retrieveLatestStoredLocalStorage().emotionResults
 
   // Need to sort the data before placing it into the array in order to 'cluster' them by overall sentiment (positive/negative/etc.)
-  sorted_data = sorted_emotions(parsed_data_emotion_results)
-  //    console.log(sorted_data)
+  sorted_data = sorted_emotions(obj_emotion_result)
 
   var data_array = [];
   var labels_array = [];
-
-
-
-  //    parsed_data_emotion_results.forEach((individual_result) => {
-  //        console.log(`${individual_result.emotion},${individual_result.score}`)
-  //        data_array.push(individual_result.score)
-  //        labels_array.push(individual_result.emotion);
-  //    });
 
   sorted_data.forEach((individual_result) => {
 
@@ -141,7 +137,7 @@ function render_latest_radar(chart_title, element_id) {
 
 
   //Make the chart
-  createRadarChart(labels_array, data_array, chart_title, element_id)
+  createRadarChart(labels_array, data_array, 'Detailed radar chart', element_id)
 }
 
 // Helper function to get unique values based on a specific attribute
@@ -198,7 +194,9 @@ function allAverageCategoryScores(emotion_object, list_of_categories) {
 
 function radarEmotionCategories(emotion_result_object, element_id) { // Right now hard-coded to do it off the latest results
   console.log('Creating higher-level emotion categories categories')
-  const higher_emotion_categories = getUniqueValues(emotion_result_object, 'emotion_category') // This will become the label
+  const higher_emotion_categories = ['positive','ambiguous','negative','neutral']
+  // const higher_emotion_categories = getUniqueValues(emotion_result_object, 'emotion_category') // This will become the label
+
   
   // Filter the values in order to avoid zero-values of emotion_scores dragging down the average
   filtered_emotion_object = emotion_result_object.filter((emotion_result) => emotion_result.filter)
@@ -206,25 +204,4 @@ function radarEmotionCategories(emotion_result_object, element_id) { // Right no
   chart_data = allAverageCategoryScores(filtered_emotion_object, higher_emotion_categories)
 
   createRadarChart(higher_emotion_categories, chart_data, 'Emotion categories average', element_id)
-}
-
-// Takes in emotion results and adds the values of 0 if not in the category, or adds it to create 'leaves' of data
-// which can be  different sets of data in the radar chart  -- deprecated function to remove?
-function createRadarSliceData(emotion_result, category) {
-  const data = [];
-
-  for (const emotion_score of emotion_result) {
-    if (emotion_score.emotion_category === category) {
-      data.push(emotion_score.score);
-    } else {
-      data.push(0);
-    }
-  }
-
-  const radar_slice = {
-    label: category,
-    data: data
-  };
-
-  return radar_slice;
 }

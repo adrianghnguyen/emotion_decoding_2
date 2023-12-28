@@ -7,7 +7,7 @@
 {% block content %}
     <style>
       #custom-container {
-        max-width: 800px; /* Set your desired maximum width */
+        max-width: 500px; /* Set your desired maximum width */
         margin: 0 auto; /* Center the container horizontally */
       }
     </style>
@@ -20,7 +20,8 @@
 <script>
 
 latest_emotion_result = retrieveLatestEmotionObject()
+
+radarDetailed(latest_emotion_result, 'detailedRadar')
 radarEmotionCategories(latest_emotion_result, 'radarEmotionCategories')
-render_latest_radar('Emotion score', 'detailedRadar')
 </script>
 {% endblock %}
