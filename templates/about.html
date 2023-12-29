@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}
+  About this project
+{% endblock %}
+{% block content %}
+  <div class="container-md">
+    <h2>Project and personal motivation</h2>
+    <p>This is a personal project focused on helping me learn and practice the core skills of the development and development of an end-to-end app.  The project's inception was motivated by the 
+      intention to create a tool for helping people develop emotional intelligence by having a tool provide feedback on the perceived emotions from the text. 
+      By encouraging users to articulate personal situations, my hope is to help users develop self-awareness and judgment skills to emotional context in text.</p>
+    <p>
+      This is my first real Python project which I am openly sharing to other people. 
+      I've dabbled in programming over the years but never tackled something on my own. I'm grateful for my friend <a href="https://tvier.net/">Tim Vieregge</a> in helping 
+      guide me through some of the basic process and the required thinking skills to think like a software engineer such as simply getting something to work, breaking down a problem and sticking through technical challenges.
+    </p>
+    <h2>How to use this project</h2>
+      <ul>
+        <li>Users can input text prompts, initiating the text classification model for emotion analysis.</li>
+        <li>The results are presented through charts, offering a visual representation of detected emotions (28 detected labels).</li>
+        <li>Additionally, users have the ability to review and analyze their historical submissions.</li>
+      </ul>  
+    <h2>Technical details</h2>
+    <p>
+    While browsing through HuggingFace and exploring large language models, 
+      I came across the text-classification model BERT trained on the <a href="https://paperswithcode.com/paper/goemotions-a-dataset-of-fine-grained-emotions">GoEmotions dataset from paper of the same name</a>. 
+      I became interested in learning how machine learning models, artificial intelligence could be used to address the global mental health 
+      epidemic as my educational background is in psychology.
+    </p>
+    <p>
+      Underneath the hood, this runs a Python Flask backend with some custom javascript from <a href="https://www.chartjs.org/docs/latest/charts/radar.html">Chart.JS</a> 
+      and it saves prior entries using the browser <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">Local Storage API</a>. I wished to avoid sending what may be personal stories into a database. 
+      Since I only need inferencing, I've switched the model pipeline to use the quantized ONNX model version - which makes the Transformer model a bit more lightweight in terms of resources
+    </p>
+    <h2>Learned lessons and challenges</h2>
+    <p>
+       Oh boy - it's one thing to follow a follow a tutorial but it's one thing to venture off on your own and learn to 
+       apply your knowledge. Python is something with which I am a bit more comfortable so learning the javascript syntax and reading through its documentation was a bit more complex. I'm not completely familiar with its object-oriented syntax.
+    </p>
+    <p>
+       Likewise, it's one thing to simply be writing functions, but it's one thing to learn how to cobble various bits of pieces here and there. 
+       How do HTTP requests work? What's Flask? How do I use Boostrap for styling exactly? Can I learn how to customize this damn chart? In my prior life in analytics, I took the ease of use of 
+       data visualization tools for granted rather than needing something which is dynamic.
+    </p>
+    <p>
+       In this project, I felt like I needed to learn a bit about everything. It was fun. And I'm looking forward to the next one. There's a lot of spaghetti in there but "Sucking at something is the first step to becoming sorta good at something".
+    </p>
+  </div>
+{% endblock %}
