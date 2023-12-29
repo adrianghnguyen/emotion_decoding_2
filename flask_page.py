@@ -5,6 +5,8 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    if request.method =='POST':
+        return redirect(url_for('home'))
     return render_template('index.html')
 
 @app.route('/processed_emotion', methods=['GET', 'POST'])
@@ -19,9 +21,9 @@ def processed_emotion():
 def all_results():
     return render_template('all_results.html')
 
-@app.route('/chart', methods=['GET'])
-def chart():
-    return render_template('chart.html')
+# @app.route('/chart', methods=['GET'])
+# def chart():
+#     return render_template('chart.html')
 
 if __name__ == "__main__":
     app.run()
