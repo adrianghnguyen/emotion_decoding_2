@@ -2,15 +2,53 @@
 {% block title %} Home Page {% endblock %}
 {% block content %}
 <div class="container">
+	<div class="accordion" id="accordionExample">
+	  <div class="accordion-item">
+	    <h2 class="accordion-header">
+	      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+	        What is a Feelings Wheel?
+	      </button>
+	    </h2>
+	    <div id="collapseOne" class="accordion-collapse collapse collapse" data-bs-parent="#accordionExample">
+	      <div class="accordion-body">
+		      <p>A feelings wheel is a visual tool designed to help individuals identify and articulate their emotions with greater precision. It typically consists of a central emotion category, such as "anger" or "joy," which then branches out into more specific feelings within that category. The wheel provides a hierarchical structure, allowing users to navigate through layers of emotions to pinpoint their current emotional state accurately.</p>
+				<ul>
+		        <li>Enhances emotional intelligence by helping us recognize and understand our emotions</li>
+		        <li>Makes it easier for us to precisely communicate the state of our feelings, contributing to
+		            healthier interpersonal relationships.</li>
+		        <li>Supports the development of healthier coping mechanisms through a nuanced understanding of emotions.</li>
+				</ul>
+		      <div id="feeling-wheel-img" style="max-width: 500px">
+			      <p>Here is an example of a traditional feelings wheel:</p>
+		          <img src="https://feelingswheel.com/feelings-wheel.jpg" alt="feeling wheel image" style="max-width: 500px">
+		      </div>
+
+	      </div>
+	    </div>
+	  </div>
+	  <div class="accordion-item">
+	    <h2 class="accordion-header">
+	      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+	        How to use this website
+	      </button>
+	    </h2>
+	    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+	      <div class="accordion-body">
+		      <p>Placeholder instructions here</p>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	<div class="form-group">
 	    <form method="post" action="{{ url_for('processed_emotion') }}">
 	        <label for="input_text">Submit the text you wish to process:</label>
 	        <br>
-	        <textarea id="input_text" name="input_text" rows="6" cols="100"></textarea>
+			<!-- Restrict form length to 1600 to prevent transformer overflow in the function. The model cannot
+			support excessive string length		    -->
+	        <textarea id="input_text" name="input_text" maxlength="1600"></textarea>
 	        <br>
 	        <button type="submit">Submit</button>
 	    </form>
 	</div>
-
 </div>
 {% endblock %}
