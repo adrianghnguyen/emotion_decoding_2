@@ -1,24 +1,8 @@
 {% extends "base.html" %}
 {% block title %} Home Page {% endblock %}
 {% block content %}
-
 <div class="container">
 	<div class="accordion" id="accordionExample">
-		<div class="accordion-item">
-			<h2 class="accordion-header">
-				<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-					What is an emotional compass? How to use this tool
-				</button>
-			</h2>
-			<div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-				<div class="accordion-body">
-					<p>I've developed a website designed to assist you in uncovering and helping you refine how you express
-					   your emotions. Emotions are messy and complex - and sometimes it's hard to know what's going on.</p>
-					<p>You can share your thoughts or describe a situation. Using a machine learning model, your text is scored for various emotions (describe a bit more about the emotion taxonomy?). You can think of the results as an emotion compass.</p>
-					<p>This unique feature aims to help you gain a clearer understanding of your feelings, providing a valuable reference point for self-reflection and emotional exploration.</p>
-				</div>
-			</div>
-		</div>
 	  <div class="accordion-item">
 	    <h2 class="accordion-header">
 	      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -38,22 +22,33 @@
 			      <p>Here is an example of a traditional feelings wheel:</p>
 		          <img src="https://feelingswheel.com/feelings-wheel.jpg" alt="feeling wheel image" style="max-width: 500px">
 		      </div>
+
 	      </div>
 	    </div>
 	  </div>
-
+	  <div class="accordion-item">
+	    <h2 class="accordion-header">
+	      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+	        How to use this website
+	      </button>
+	    </h2>
+	    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+	      <div class="accordion-body">
+		      <p>Placeholder instructions here</p>
+	      </div>
+	    </div>
+	  </div>
 	</div>
-	<!-- Input form	-->
-	<div class="mb-3" style="margin-top: 50px;">
-	  <form method="post" action="{{ url_for('processed_emotion') }}">
-	    <label for="instruction_text" class="form-label">Write about your day or situation...</label>
-	    <br>
-	    <!-- Restrict form length to 1600 to prevent transformer overflow in the function. The model cannot
-	    support excessive string length -->
-	    <textarea class="form-control" id="instruction_text" name="input_text" rows="3" maxlength="1600"></textarea>
-	    <br>
-	    <button type="submit" class="btn btn-primary">Submit</button>
-	  </form>
+	<div class="form-group">
+	    <form method="post" action="{{ url_for('processed_emotion') }}">
+	        <label for="input_text">Submit the text you wish to process:</label>
+	        <br>
+			<!-- Restrict form length to 1600 to prevent transformer overflow in the function. The model cannot
+			support excessive string length		    -->
+	        <textarea id="input_text" name="input_text" maxlength="1600"></textarea>
+	        <br>
+	        <button type="submit">Submit</button>
+	    </form>
 	</div>
 </div>
 {% endblock %}
