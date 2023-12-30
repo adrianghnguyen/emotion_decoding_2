@@ -1,1 +1,1 @@
-web: gunicorn flask_page.wsgi --log-file
+web: gunicorn wsgi:app
