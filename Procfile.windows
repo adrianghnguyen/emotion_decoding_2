@@ -1,1 +1,1 @@
-web: python manage.py runserver %PORT%
+web: python flask_page.py runserver %PORT%
