@@ -92,7 +92,7 @@ function export_browser_data_as_json(filename){
     console.log('Exported browser data as JSON')
 }
 
-// Stolen function from SO
+// Exports text variable to a browser modal dialog for download
 function download_text(text, filename){
   var blob = new Blob([text], {type: "text/plain"});
   var url = window.URL.createObjectURL(blob);
@@ -110,4 +110,12 @@ function download_json(json_object, filename){
   a.href = url;
   a.download = filename;
   a.click();
+}
+
+// Clear browser storage information and wipes historical data TODO: Brings into script main_local_storage.js?
+function clear_local_storage() {
+    localStorage.clear();
+    console.log('Local storage has been cleared')
+    alert('Local Storage cleared!');
+    $('#clear_local_storageModal').modal('hide');
 }
