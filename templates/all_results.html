@@ -4,22 +4,24 @@
 <div id="storedSubmissions"></div>
 <script type="text/javascript" src="{{ url_for('static', filename='main_local_storage.js') }}"></script>
 <script>
+	// Clear browser storage information and wipes historical data TODO: Brings into script main_local_storage.js?
 	function clearLocalStorage() {
-	localStorage.clear();
-	console.log('Local storage has been cleared')
-	alert('Local Storage cleared!');
-	$('#clearLocalStorageModal').modal('hide');
+		localStorage.clear();
+		console.log('Local storage has been cleared')
+		alert('Local Storage cleared!');
+		$('#clearLocalStorageModal').modal('hide');
 	}
 </script>
-
-
 <div class="container">
-	<!-- Warning Red Button to trigger the modal -->
+	<!-- Exporting current browser as data -->
+	<button type="button" class="btn btn-secondary" onclick="export_browser_data_as_json('emotion_compass_data.json')">
+	  Export data as JSON
+	</button>
+	<!-- Warning button for clearing local data -->
 	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#clearLocalStorageModal">
 	  Clear all previous entries
 	</button>
-	
-	<!-- Modal -->
+	<!-- Warning modal for clearing data -->
 	<div class="modal fade" id="clearLocalStorageModal" tabindex="-1" role="dialog" aria-labelledby="clearLocalStorageModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
@@ -41,6 +43,5 @@
 	  </div>
 	</div>
 </div>
-
 {% endblock %}
 

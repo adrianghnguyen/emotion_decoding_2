@@ -65,4 +65,49 @@ function process_data_html(parsed_data) {
     return html_content;
 }
 
+// Reads local storage in order to get all stored key objects
+function get_json_local_storage(){
+    const all_local_keys = Object.keys(localStorage).sort(); //Sorted in old->new order based on key timestamp
+    var json_local_storage = []
 
+    // Places entirety of local storage data into a JSON object
+    all_local_keys.forEach(individual_key => {
+        const raw_data_payload = localStorage.getItem(individual_key);
+        const parsed_data = JSON.parse(raw_data_payload);
+        json_local_storage.push(parsed_data)
+    })
+
+    return json_local_storage
+}
+
+// Allows user to export the historical data submission entries stored within their browser inside local storage
+function export_browser_data_as_json(filename){
+    const stored_data = {
+        'stored_data': get_json_local_storage(),
+        'uuid': Date.now()
+    }
+
+    console.log('Exporting the following data')
+    download_json(stored_data,filename)
+    console.log('Exported browser data as JSON')
+}
+
+// Stolen function from SO
+function download_text(text, filename){
+  var blob = new Blob([text], {type: "text/plain"});
+  var url = window.URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+}
+
+// Prompts user to save json object from browser
+function download_json(json_object, filename){
+  const blob = new Blob([JSON.stringify(json_object, null, 2)], {type: "application/json",});
+  var url = window.URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+}
