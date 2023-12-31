@@ -1,4 +1,11 @@
-function process_local_storage() {
+// On page load, read the locally stored submission data entries and render them as an HTML element
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Reading previously stored browser emotion submission entries and rendering on page')
+    create_historical_results();
+});
+
+// Produces the browser local storage data as a page result element
+function create_historical_results() {
     const all_local_keys = Object.keys(localStorage).sort(); //Sorted in old->new order based on key timestamp
 
     // Create a container div to hold all entries
@@ -21,9 +28,7 @@ function process_local_storage() {
     document.body.appendChild(containerElement);
 }
 
-
-
-// Processes the previous submission entries and returns it as HTML
+// Processes the previous emotion submission entries in the browser local and returns it as HTML
 function process_data_html(parsed_data) {
 
     const options = {
@@ -60,6 +65,4 @@ function process_data_html(parsed_data) {
     return html_content;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    process_local_storage();
-});
+
