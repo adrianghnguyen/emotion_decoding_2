@@ -1,3 +1,7 @@
+.accordion {
+    --bs-accordion-btn-bg: #adb5bd
+}
+
 .callout {
   padding: 20px;
   margin: 20px 0;
