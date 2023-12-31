@@ -19,7 +19,6 @@ function retrieveLatestEmotionObject() {
 }
 
 // Basic radar chart builder which is going to be used by more complex ones
-c;
 
 function createRadarChart(labels_var, data_var, chart_title, element_id) {
   const data = {
