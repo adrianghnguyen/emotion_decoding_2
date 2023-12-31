@@ -2,6 +2,7 @@
 {% block title %} Home Page {% endblock %}
 {% block content %}
 <div class="container">
+	<!-- Callout	-->
 	<div class="callout callout-danger">
 	  <h4>WIP - Need feedback</h4>
 		<h5>Things I am thinking about...</h5>
@@ -18,11 +19,19 @@
 				      positive/negative days, trend analysis, etc.</li>
 			  </ul>
 	</div>
+</div>
+<div class="container">
+	<!-- Website landing phrase	-->
+	<div class="container-fluid mb-3">
+        <h1 class="text-center">Emotional Compass</h1>
+        <h2 class="text-center">Cultivate your emotional awareness with an ML-powered feedback system</h2>
+    </div>
+	<!-- Explaining the website	-->
 	<div class="accordion mb-5" id="accordionExample">
 	  <div class="accordion-item">
 	    <h2 class="accordion-header">
 	      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-	        What is an emotional compass?
+	        What is an Emotional Compass?
 	      </button>
 	    </h2>
 	    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
@@ -60,11 +69,12 @@
 	<!-- Input form	-->
 	<div class="mb-3">
 	  <form method="post" action="{{ url_for('processed_emotion') }}">
-	    <label for="instruction_text" class="form-label">Write about your day or situation...</label>
+	    <label for="instruction_text" class="form-label" ></label>
 	    <!-- Restrict form length to 1600 to prevent transformer overflow in the function. The model cannot
 	    support excessive string length -->
-	    <textarea class="form-control" id="instruction_text" name="input_text" rows="5" maxlength="1600"></textarea>
-	    <button type="submit" class="btn btn-primary mt-1" >Submit</button>
+	    <textarea class="form-control" id="instruction_text" name="input_text" rows="5" maxlength="1600"
+	              placeholder="Use the next 1500 characters to capture your thoughts and feelings."></textarea>
+	    <button type="submit" class="btn btn-primary mt-3" >Submit</button>
 	  </form>
 	</div>
 </div>
