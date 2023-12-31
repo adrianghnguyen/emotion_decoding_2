@@ -19,7 +19,7 @@ function retrieveLatestEmotionObject() {
 }
 
 // Basic radar chart builder which is going to be used by more complex ones
-Chart.defaults.color = '#FFF';
+c;
 
 function createRadarChart(labels_var, data_var, chart_title, element_id) {
   const data = {
@@ -41,7 +41,6 @@ function createRadarChart(labels_var, data_var, chart_title, element_id) {
         r: {
           grid:{
             circular: true,
-            color: 'rgba(255,255,255,0.5)'
           },
           ticks: {
             showLabelBackdrop: false,
