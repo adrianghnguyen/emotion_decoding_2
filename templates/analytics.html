@@ -4,8 +4,9 @@
 <div class="container">
 	Hello chart world
 </div>
+<div style="width: 500px;"><canvas id="lineChart"></canvas></div><br/>
 <script>
 	retrieved_data = get_json_local_storage()
-	lineChart(retrieved_data)
+	lineChartTimeline(retrieved_data,'lineChart')
 </script>
 {% endblock %}

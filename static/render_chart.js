@@ -156,13 +156,68 @@ function radarDetailed(obj_emotion_result, element_id) {
 // all_data -> json retrieved object
 
 //While testing
-all_data = get_json_local_storage()
-console.log('Making sure we are getting good data for the line chart')
-console.log(all_data)
-lineChart(all_data)
+//all_data = get_json_local_storage()
+//console.log('Making sure we are getting good data for the line chart')
+//console.log(all_data)
+//lineChartTimeline(all_data)
 
-function lineChart(all_data){
+function lineChartTimeline(all_data, element_name){
 	console.log('hello world line chart')
+
+	//Read through all the timestamped entries and prepare the data into a usable array
+	// Go through each entry of all_data
+	// Get the timestamp - technically I don't even need to do that yet
+	// Get a specific value to output
+	// Make it into an object
+	// Append to the array
+	// Send array to line chart
+//	var values = []
+//
+//	for (entry in all_data){
+//		temp_value = entry.emotionResults
+//		console.log(temp_value)
+//	}
+
+
+	// I'll use this stuff later
+		// // Extract relevant features of emotionResult which is the timestamp and  
+		// // Prepare data for line chart results from retrieved exported_data
+		// all_sentiment_categories = getUniqueValues(emotion_result_object, 'emotion_category') // Positive, negative, neutral, ambiguous 
+
+		// // Go through the categories and split it into individual datasets so each sentiment can be represented as an individual line
+		// // Prepare the individual datasets
+		// dataset_sublist = {
+		// 	label: sentiment_category,
+		// 	data: [score_array]
+		// }
+
+
+
+	// Render line chart
+	const score_array = ['1','2','3']
+
+	sample_object = {
+		label: 'sample_category',
+		data: score_array
+	}
+
+	var datasets = [sample_object]
+	const labels = ['Jan','Feb','Marc']// Temporary while testing
+
+    // Create the chart
+	data = {
+		labels: labels,
+		datasets: datasets
+	}
+	const config = {
+		type: 'line',
+		data: data,
+	  };
+
+    new Chart(
+        document.getElementById(element_name), // The element on which the chart will be rendered
+        config
+    )
 }
 
 // ---------------------------------------------------- HELPER FUNCTIONS ----------------------------------------------------
