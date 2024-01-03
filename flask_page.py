@@ -25,6 +25,10 @@ def all_results():
 @app.route('/about', methods=['GET'])
 def about():
     return render_template('about.html')
+
+@app.route('/analytics', methods=['GET'])
+def analytics():
+    return render_template('analytics.html')
   
 if __name__ == "__main__":
     app.run()

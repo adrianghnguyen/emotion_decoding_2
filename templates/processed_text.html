@@ -1,36 +1,67 @@
 {% extends "base.html" %}
 {% block title %} Processed entry {% endblock %}
 {% block content %}
-<div class="container">
-    <style>
-        #custom-container {
-          max-width: 500px; /* Set your desired maximum width */
-          margin: 0 auto; /* Center the container horizontally */
-        }
-      </style>
-	<div class="row">
-		      <div class="col-sm" id="custom-container">
+<!-- Original user input-->
+<div class="container" id="text_input">
+	<p id="inputText" >{{ input_text }}</p>
+</div>
+<!-- Machine-learning model results-->
+<div class="container border border-secondary rounded mb-3" id="chart_displays" >
+	<h3 class="py-3">Machine-learning detected results</h3>
+	<div class="row justify-content-center">
+		<div class="col-sm" id="custom-container" style="max-width: 400px">
           <canvas id="radarEmotionCategories"></canvas>
-      </div>
-      <div class="col-sm" id="custom-container">
+		</div>
+      <div class="col-sm" id="custom-container2" style="max-width: 400px">
           <canvas id="detailedRadar"></canvas>
       </div>
 	</div>
+	<!-- Results printout -->
+	<div class="text-center">
+		<button class="btn btn-secondary my-2" type="button" data-bs-toggle="collapse"
+		        data-bs-target="#raw_results_output"
+		  aria-expanded="false" aria-controls="collapseExample">See raw scores</button>
+	</div>
+
+	<div class="container collapse my-3" id="raw_results_output">
+		<div class="card card-body" id="raw_results">
+	    <ul>
+	        {% for result in emotion_results %}
+	            {% if result.get("filter") == True %}
+	                <li>
+	                    {{ result.get("emotion")|capitalize }} ({{ result.get("definition")}}) presence detected with a score of
+	                    <b>{{result.get("score")|round(2)}}</b>
+	                </li>
+	            {% endif %}
+	        {% endfor %}
+	    </ul>
+	    <p>All values <b><{{ filtering_threshold }} </b> have been filtered.</p>
+		</div>
+	</div>
+	<!--	Ask user to begin investigating their emotion   -->
+	<div class="container my-3" id="feelings_prompt">
+		<div class="py-3" id="human_friendly_emotion_result">
+			<h5>Am I experiencing a sense of...</h5>
+		        {% for result in emotion_results %}
+		            {% if result.get("filter") == True and result.get("emotion") != "neutral" %}
+			                <li>
+			                    <b>{{ result.get("emotion")|capitalize }}?</b> {{ result.get("definition")}}
+			                </li>
+						<!-- Any other emotions -->
+		            {% endif %}
+		        {% endfor %}
+		</div>
+		<div id="additional_resources">
+			<p>Here are some list of additional resources to find other words to describe your emotional experience --
+			   Placeholder</p>
+			<li><a
+				href="https://brenebrown.com/wp-content/uploads/2023/05/Atlas-Resources_02_List-of-Emotions_FeaturedCover.png">Atlas of the Heart</a></li>
+			<li><a href="https://tomdrummond.com/wp-content/uploads/2019/11/Emotion-Feelings.pdf">Emotion dictionary</a></li>
+		</div>
+	
+	</div>
 </div>
-<div class="container">
-	<p id="inputText" >{{ input_text }}</p>
-    <ul>
-        {% for result in emotion_results %}
-            {% if result.get("filter") == True %}
-                <li>
-                    {{ result.get("emotion")|capitalize }} ({{ result.get("definition")}}) presence detected with a score of
-                    <b>{{result.get("score")|round(2)}}</b>
-                </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-    All values <b><{{ filtering_threshold }} </b> have been filtered.
-</div>
+
 <script>
 	function saveResult(){
         <!-- Write in submitted values to local storage. Keep as local script to pass in results -->

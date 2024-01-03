@@ -1,12 +1,7 @@
-// On page load, read the locally stored submission data entries and render them as an HTML element
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Reading previously stored browser emotion submission entries and rendering on page')
-    create_historical_results();
-});
-
 // Produces the browser local storage data as a page result element
 function create_historical_results() {
-    const all_local_keys = Object.keys(localStorage).sort(); //Sorted in old->new order based on key timestamp
+    // This function should probably be refactored to take in an output from get_json_local_storage()
+    const all_local_keys = Object.keys(localStorage).sort(); //Sorted in old->new order based on key timestamp.
 
     // Create a container div to hold all entries
     const containerElement = document.createElement('div');
