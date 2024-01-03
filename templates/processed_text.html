@@ -17,7 +17,14 @@
       </div>
 	</div>
 	<!-- Results printout -->
-	<div class="container my-3" id="raw_results_output">
+	<div class="text-center">
+		<button class="btn btn-secondary my-2" type="button" data-bs-toggle="collapse"
+		        data-bs-target="#raw_results_output"
+		  aria-expanded="false" aria-controls="collapseExample">See raw scores</button>
+	</div>
+
+	<div class="container collapse my-3" id="raw_results_output">
+		<div class="card card-body" id="raw_results">
 	    <ul>
 	        {% for result in emotion_results %}
 	            {% if result.get("filter") == True %}
@@ -28,9 +35,39 @@
 	            {% endif %}
 	        {% endfor %}
 	    </ul>
-	    All values <b><{{ filtering_threshold }} </b> have been filtered.
+	    <p>All values <b><{{ filtering_threshold }} </b> have been filtered.</p>
+		</div>
+	</div>
+	<!--	Ask user to begin investigating their emotion   -->
+	<div class="container my-3" id="feelings_prompt">
+		<div class="py-3" id="human_friendly_emotion_result">
+			<h5>Am I experiencing a sense of...</h5>
+		        {% for result in emotion_results %}
+		            {% if result.get("filter") == True %}
+						<!-- Neutral prompt -->
+						{% if result.get("emotion") == "neutral" %}
+							<p>Note: We've detected some neutral message content in your message. -- Placeholder message
+							</p>
+						{% else %}
+			                <li>
+			                    <b>{{ result.get("emotion")|capitalize }}?</b> {{ result.get("definition")}}
+			                </li>
+							{% endif %}
+						<!-- Any other emotions -->
+		            {% endif %}
+		        {% endfor %}
+		</div>
+		<div id="additional_resources">
+			<p>Here are some list of additional resources to find other words to describe your emotional experience --
+			   Placeholder</p>
+			<li><a
+				href="https://brenebrown.com/wp-content/uploads/2023/05/Atlas-Resources_02_List-of-Emotions_FeaturedCover.png">Atlas of the Heart</a></li>
+			<li><a href="https://tomdrummond.com/wp-content/uploads/2019/11/Emotion-Feelings.pdf">Emotion dictionary</a></li>
+		</div>
+	
 	</div>
 </div>
+
 <script>
 	function saveResult(){
         <!-- Write in submitted values to local storage. Keep as local script to pass in results -->
