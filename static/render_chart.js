@@ -153,18 +153,7 @@ function radarDetailed(obj_emotion_result, element_id) {
 
 // ---------------------------------------------------- LINE CHART FUNCTIONS ----------------------------------------------------
 // Takes in all data retrieved from local storage and display as a line chart
-// all_data -> json retrieved object
-
-//While testing
-//all_data = get_json_local_storage()
-//console.log('Making sure we are getting good data for the line chart')
-//console.log(all_data)
-//lineChartTimeline(all_data)
-
-function prepareCategoryChartData(){
-}
-
-function lineChartTimeline(all_data, element_name){
+function lineChartTimelineCategory(all_data, element_name){
 	console.log('Creating timeline linechart')
 
 	var all_average_scores = []
@@ -205,7 +194,9 @@ function lineChartTimeline(all_data, element_name){
     for (let [category, data] of Object.entries(categorizedArrays)) {
         let dataset_entry = {
             label: category,
-            data: data
+            data: data,
+            tension: 0.1,
+//            spanGaps: false
         };
         dataset_array.push(dataset_entry);
     }

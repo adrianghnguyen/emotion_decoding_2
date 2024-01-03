@@ -2,11 +2,10 @@
 {% block title %} Processed entry {% endblock %}
 {% block content %}
 <div class="container">
-	Hello chart world
+	<div style="width: 800px;"><canvas id="lineChart"></canvas></div><br/>
 </div>
-<div style="width: 500px;"><canvas id="lineChart"></canvas></div><br/>
 <script>
 	retrieved_data = get_json_local_storage()
-	lineChartTimeline(retrieved_data,'lineChart')
+	lineChartTimelineCategory(retrieved_data,'lineChart')
 </script>
 {% endblock %}
