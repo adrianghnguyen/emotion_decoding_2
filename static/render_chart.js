@@ -114,7 +114,6 @@ function sorted_emotions(emotions_results) {
 // Creates radar chart which clusters for the 4 higher level sentiment positive/negative/neutral/amb
 function radarEmotionCategories(emotion_result_object, element_id) { // Right now hard-coded to do it off the latest results
     console.log('Creating higher-level emotion categories categories')
-    const higher_emotion_categories = ['positive','ambiguous','negative','neutral']
     const higher_emotion_categories = getUniqueValues(emotion_result_object, 'emotion_category') // This will become the label
 
     //Prep the data for the chart
