@@ -161,52 +161,61 @@ function radarDetailed(obj_emotion_result, element_id) {
 //console.log(all_data)
 //lineChartTimeline(all_data)
 
+function prepareCategoryChartData(){
+}
+
 function lineChartTimeline(all_data, element_name){
-	console.log('hello world line chart')
+	console.log('Creating timeline linechart')
 
-	//Read through all the timestamped entries and prepare the data into a usable array
-	// Go through each entry of all_data
-	// Get the timestamp - technically I don't even need to do that yet
-	// Get a specific value to output
-	// Make it into an object
-	// Append to the array
-	// Send array to line chart
-//	var values = []
-//
-//	for (entry in all_data){
-//		temp_value = entry.emotionResults
-//		console.log(temp_value)
-//	}
+	var all_average_scores = []
+	var x_axis = []
 
+    // Go through each user-submitted entry log
+	for (let entry of all_data){
 
-	// I'll use this stuff later
-		// // Extract relevant features of emotionResult which is the timestamp and  
-		// // Prepare data for line chart results from retrieved exported_data
-		// all_sentiment_categories = getUniqueValues(emotion_result_object, 'emotion_category') // Positive, negative, neutral, ambiguous 
+	    // Break down the individual emotion scores data into respective category averages
+        category_scores = convertResultSentimentAverage(entry.emotionResults)
+        all_average_scores.push(category_scores)
 
-		// // Go through the categories and split it into individual datasets so each sentiment can be represented as an individual line
-		// // Prepare the individual datasets
-		// dataset_sublist = {
-		// 	label: sentiment_category,
-		// 	data: [score_array]
-		// }
-
-
-
-	// Render line chart
-	const score_array = ['1','2','3']
-
-	sample_object = {
-		label: 'sample_category',
-		data: score_array
+	    //Timestamp
+	    timestamp = entry.timestamp
+	    x_axis.push(timestamp)
 	}
 
-	var datasets = [sample_object]
-	const labels = ['Jan','Feb','Marc']// Temporary while testing
+	// Break down the average scores into their own arrays
+    // Initialize an object to store arrays for each category
+    const categorizedArrays = {};
+
+    all_average_scores.forEach(data => {
+        data.average_category_score.forEach(categoryScore => {
+            const category = categoryScore.category;
+
+            // If the category array doesn't exist, create it
+            if (!categorizedArrays[category]) {
+                categorizedArrays[category] = [];
+            }
+
+            // Push the category score to the corresponding array
+            categorizedArrays[category].push(categoryScore.average_score);
+        });
+    });
+
+    // Now categorizedArrays contains separate arrays for each category
+    var dataset_array = []
+    for (let [category, data] of Object.entries(categorizedArrays)) {
+        let dataset_entry = {
+            label: category,
+            data: data
+        };
+        dataset_array.push(dataset_entry);
+    }
+
+	datasets = dataset_array
+	console.log(datasets)
 
     // Create the chart
 	data = {
-		labels: labels,
+		labels: x_axis,
 		datasets: datasets
 	}
 	const config = {
@@ -256,7 +265,7 @@ function averageCategoryScore(emotion_object, category) {
 
   all_scores = allCategoryScores(emotion_object, category)
   average = calculateAverage(all_scores)
-  console.log(`Average score for ${category} is ${average}`)
+//  console.log(`Average score for ${category} is ${average}`)
   return average
 }
 
@@ -271,5 +280,39 @@ function allAverageCategoryScores(emotion_object, list_of_categories) {
   }
 
   return temp_all_average_scores
+}
+
+// Takes list of categories and returns an array of their averages in the passed order
+function allAverageCategoryScores_v2(emotion_object, list_of_categories) {
+
+	temp_all_average_scores = []
+  
+	for (category of list_of_categories) {
+		result = averageCategoryScore(emotion_object, category)
+		entry = {
+			category: category,
+			average_score: result
+		}
+
+	  temp_all_average_scores.push(entry)
+	}
+  
+	return temp_all_average_scores
+  }
+
+// Take emotion_result object and computes the category averages which is returned for the chart data
+function convertResultSentimentAverage(emotion_result_object){
+    // Hard-coded to specify a return order
+    const higher_emotion_categories = ['positive', 'negative', 'ambiguous', 'neutral'] // This will become the label
+
+    //Prep the data for the chart
+    filtered_emotion_object = emotion_result_object.filter((emotion_result) => emotion_result.filter)   // Remove zero-values of emotion_scores dragging down the average
+    averaged_sentiment_results = allAverageCategoryScores_v2(filtered_emotion_object, higher_emotion_categories)
+
+    computed_averages = {
+        average_category_score: averaged_sentiment_results
+    }
+
+    return computed_averages
 }
 
