@@ -21,7 +21,6 @@ function retrieveLatestEmotionObject() {
 }
 
 // Basic radar chart builder which is going to be used by more complex ones
-
 function createRadarChart(labels_var, data_var, chart_title, element_id) {
   const data = {
     labels: labels_var,
@@ -111,6 +110,21 @@ function sorted_emotions(emotions_results) {
   return sorted_results
 }
 
+// ---------------------------------------------------- RADAR FUNCTIONS ----------------------------------------------------
+// Creates radar chart which clusters for the 4 higher level sentiment positive/negative/neutral/amb
+function radarEmotionCategories(emotion_result_object, element_id) { // Right now hard-coded to do it off the latest results
+  console.log('Creating higher-level emotion categories categories')
+  const higher_emotion_categories = ['positive','ambiguous','negative','neutral']
+  // const higher_emotion_categories = getUniqueValues(emotion_result_object, 'emotion_category') // This will become the label
+
+
+  // Filter the values in order to avoid zero-values of emotion_scores dragging down the average
+  filtered_emotion_object = emotion_result_object.filter((emotion_result) => emotion_result.filter)
+
+  chart_data = allAverageCategoryScores(filtered_emotion_object, higher_emotion_categories)
+
+  createRadarChart(higher_emotion_categories, chart_data, 'Category average', element_id)
+}
 
 // Detailed radar chart for all 28 emotion scores - TBH this chart isn't very useful
 function radarDetailed(obj_emotion_result, element_id) {
@@ -141,6 +155,7 @@ function radarDetailed(obj_emotion_result, element_id) {
   createRadarChart(labels_array, data_array, 'Emotion score', element_id)
 }
 
+// ---------------------------------------------------- HELPER FUNCTIONS ----------------------------------------------------
 // Helper function to get unique values based on a specific attribute
 const getUniqueValues = (array, attribute) => {
   const uniqueValuesSet = new Set(array.map(item => item[attribute]));
@@ -193,16 +208,3 @@ function allAverageCategoryScores(emotion_object, list_of_categories) {
   return temp_all_average_scores
 }
 
-function radarEmotionCategories(emotion_result_object, element_id) { // Right now hard-coded to do it off the latest results
-  console.log('Creating higher-level emotion categories categories')
-  const higher_emotion_categories = ['positive','ambiguous','negative','neutral']
-  // const higher_emotion_categories = getUniqueValues(emotion_result_object, 'emotion_category') // This will become the label
-
-  
-  // Filter the values in order to avoid zero-values of emotion_scores dragging down the average
-  filtered_emotion_object = emotion_result_object.filter((emotion_result) => emotion_result.filter)
-
-  chart_data = allAverageCategoryScores(filtered_emotion_object, higher_emotion_categories)
-
-  createRadarChart(higher_emotion_categories, chart_data, 'Category average', element_id)
-}
