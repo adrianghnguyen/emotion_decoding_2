@@ -2,7 +2,6 @@
 {% block title %} Home Page {% endblock %}
 {% block content %}
 <div id="storedSubmissions"></div>
-<script type="text/javascript" src="{{ url_for('static', filename='main_local_storage.js') }}"></script>
 <div class="container">
 	<!-- Exporting current browser as data -->
 	<button type="button" class="btn btn-secondary" onclick="export_browser_data_as_json('emotion_compass_data.json')">

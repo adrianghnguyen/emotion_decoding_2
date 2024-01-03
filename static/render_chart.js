@@ -1,15 +1,17 @@
 // From the browser storage, return the latest stored object based on the greatest key value
+// This function should be replaced by local_storage.js functions
 function retrieveLatestStoredLocalStorage() {
-  const all_keys = Object.keys(localStorage).sort(); // Sorting in ascending key value
-  const latest_key = all_keys[all_keys.length - 1] //
 
-  const latest_data_payload = localStorage.getItem(latest_key);
-  const parsed_data = JSON.parse(latest_data_payload)
+    const all_keys = Object.keys(localStorage).sort(); // Sorting in ascending key value
+    const latest_key = all_keys[all_keys.length - 1] //
 
-  console.log('Retrieving latest stored payload from local storage')
-  console.log(parsed_data)
+    const latest_data_payload = localStorage.getItem(latest_key);
+    const parsed_data = JSON.parse(latest_data_payload)
 
-  return parsed_data
+    console.log('Retrieving latest stored payload from local storage')
+    console.log(parsed_data)
+
+    return parsed_data
 }
 
 // Processes the local storage object to only return the emotionResults object
