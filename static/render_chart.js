@@ -218,10 +218,20 @@ function lineChartTimeline(all_data, element_name){
 		labels: x_axis,
 		datasets: datasets
 	}
-	const config = {
-		type: 'line',
-		data: data,
-	  };
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'day'
+                    }
+                }
+            }
+        }
+    };
 
     new Chart(
         document.getElementById(element_name), // The element on which the chart will be rendered
