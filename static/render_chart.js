@@ -36,7 +36,7 @@ function createRadarChart(labels_var, data_var, chart_title, element_id) {
     type: 'radar',
     data: data,
     options: {
-      spanGaps: false,
+    spanGaps: false,
       scales: {
         r: {
           grid:{
@@ -149,6 +149,20 @@ function radarDetailed(obj_emotion_result, element_id) {
 
   //Make the chart
   createRadarChart(labels_array, data_array, 'Emotion score', element_id)
+}
+
+// ---------------------------------------------------- LINE CHART FUNCTIONS ----------------------------------------------------
+// Takes in all data retrieved from local storage and display as a line chart
+// all_data -> json retrieved object
+
+//While testing
+all_data = get_json_local_storage()
+console.log('Making sure we are getting good data for the line chart')
+console.log(all_data)
+lineChart(all_data)
+
+function lineChart(all_data){
+	console.log('hello world line chart')
 }
 
 // ---------------------------------------------------- HELPER FUNCTIONS ----------------------------------------------------
