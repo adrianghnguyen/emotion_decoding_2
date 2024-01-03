@@ -43,16 +43,10 @@
 		<div class="py-3" id="human_friendly_emotion_result">
 			<h5>Am I experiencing a sense of...</h5>
 		        {% for result in emotion_results %}
-		            {% if result.get("filter") == True %}
-						<!-- Neutral prompt -->
-						{% if result.get("emotion") == "neutral" %}
-							<p>Note: We've detected some neutral message content in your message. -- Placeholder message
-							</p>
-						{% else %}
+		            {% if result.get("filter") == True and result.get("emotion") != "neutral" %}
 			                <li>
 			                    <b>{{ result.get("emotion")|capitalize }}?</b> {{ result.get("definition")}}
 			                </li>
-							{% endif %}
 						<!-- Any other emotions -->
 		            {% endif %}
 		        {% endfor %}
