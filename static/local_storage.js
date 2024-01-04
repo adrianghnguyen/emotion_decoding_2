@@ -120,3 +120,14 @@ function clear_local_storage() {
     alert('Local Storage cleared!');
     $('#clear_local_storageModal').modal('hide');
 }
+
+// Retrieves the latest object in local_storage - which should be the last thing the user submitted
+function retrieve_latest_entry(){
+    const last_entry_key = Object.keys(localStorage).sort().slice(-1)[0]; // Sort in order from old->new
+
+    // I'm repeating myself here - this may be worth bringing into its own function
+    const raw_data_payload = localStorage.getItem(last_entry_key);
+    const last_parsed_data = JSON.parse(raw_data_payload);
+
+    return last_parsed_data
+}

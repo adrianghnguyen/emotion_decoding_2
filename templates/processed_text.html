@@ -111,11 +111,33 @@ saveResult()
 	<button type="submit" class="btn btn-primary mt-3" onclick="saveUserReflection('user_reflection_text')" >Save</button>
 </div>
 <script>
-	saveUserReflection(target_element){
-		const retrieved_value = document.getElementById(target_element).value
-		console.log(retrieved_value)
+	// When user clicks button to save their free response comments, append it to our stored object
+	function saveUserReflection(target_element) {
+	  const user_reflection_comment_element = document.getElementById(target_element);
+	
+	  if (user_reflection_comment_element) {
+	    const user_reflection_comment = user_reflection_comment_element.value;
+	    console.log(user_reflection_comment);
+	
+	    let updated_entry = retrieve_latest_entry();
+	
+	    if (updated_entry && typeof updated_entry === 'object' && 'keyName' in updated_entry) {
+	      updated_entry['userReflection'] = user_reflection_comment;
+	
+	      // Update the existing local_storage key with the newly updated object
+	      let key_name = updated_entry.keyName;
+	      console.log(updated_entry);
+	
+	      let jsonString = JSON.stringify(updated_entry);
+	      localStorage.setItem(key_name, jsonString);
+	    } else {
+	      console.error('Error: retrieve_latest_entry did not return a valid object with keyName property.');
+	    }
+	  } else {
+	    console.error(`Element with ID '${target_element}' not found.`);
+	  }
 	}
-</script>
+	</script>
 <!--Disable for the moment-->
 <!--<div class="container">-->
 <!--	<button type="button" class="btn btn-secondary" onclick="window.location.href='/results'">Go to History</button>-->
