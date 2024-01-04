@@ -3,6 +3,28 @@
   About this project
 {% endblock %}
 {% block content %}
+<script>
+  const repoOwner = 'adrianghnguyen';
+  const repoName = 'emotion_decoding_2';
+
+  // Fetch releases from GitHub API
+  $.get(`https://api.github.com/repos/${repoOwner}/${repoName}/releases`, function (data) {
+    const changelogContainer = $('#changelog-container');
+
+    // Create an unordered list to display release links
+    const ul = $('<ul></ul>');
+
+    data.forEach(function (release) {
+      // Create list item for each release with a link
+      const li = $('<li></li>');
+      const link = $('<a></a>').attr('href', release.html_url).text(`Version ${release.tag_name}`);
+      li.append(link);
+      ul.append(li);
+    });
+
+    changelogContainer.append(ul);
+  });
+</script>
   <div class="container-md">
     <h2>Project and personal motivation</h2>
     <p>This is a personal project focused on helping me learn and practice the core skills of the development and development of an end-to-end app.  The project's inception was motivated by the 
@@ -13,6 +35,9 @@
       I've dabbled in programming over the years but never tackled something on my own. I'm grateful for my friend <a href="https://tvier.net/">Tim Vieregge</a> in helping 
       guide me through some of the basic process and the required thinking skills to think like a software engineer such as simply getting something to work, breaking down a problem and sticking through technical challenges.
     </p>
+	<div id="changelog-container">
+		<h5>Link to release version notes</h5>
+	</div>
     <h2>How to use this project</h2>
       <ul>
         <li>Users can input text prompts, initiating the text classification model for emotion analysis.</li>
