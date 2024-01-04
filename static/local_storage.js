@@ -1,5 +1,5 @@
 // Produces the browser local storage data as a page result element
-function create_historical_results() {
+function create_historical_results(target_element_id) {
     // This function should probably be refactored to take in an output from get_json_local_storage()
     const all_local_keys = Object.keys(localStorage).sort(); //Sorted in old->new order based on key timestamp.
 
@@ -19,8 +19,14 @@ function create_historical_results() {
         containerElement.innerHTML += html_content;
     });
 
-    // Append the container to the body outside the loop
-    document.body.appendChild(containerElement);
+    // Write the content to a specific element ID
+    const targetElement = document.getElementById(target_element_id);
+
+    if (target_element_id) {
+        targetElement.appendChild(containerElement);
+    } else {
+        console.error(`Element with ID '${target_element_id}' not found.`);
+    }
 }
 
 // Processes the previous emotion submission entries in the browser local and returns it as HTML
