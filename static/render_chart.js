@@ -44,7 +44,7 @@ function createRadarChart(labels_var, data_var, chart_title, element_id) {
           },
           ticks: {
             showLabelBackdrop: false,
-            stepSize: 0.1
+            stepSize: 0.2
           },
           angleLines: {
             display: false
