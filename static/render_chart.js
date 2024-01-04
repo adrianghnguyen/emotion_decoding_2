@@ -44,13 +44,13 @@ function createRadarChart(labels_var, data_var, chart_title, element_id) {
           },
           ticks: {
             showLabelBackdrop: false,
-            stepSize: 0.2
+            stepSize: 0.1
           },
           angleLines: {
             display: false
           },
           suggestedMin: 0,
-          suggestedMax: 1
+          suggestedMax: 0.4
         }
       },
       elements: {
