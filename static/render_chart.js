@@ -47,7 +47,7 @@ function createRadarChart(labels_var, data_var, chart_title, element_id) {
             stepSize: 0.2
           },
           angleLines: {
-            display: false
+            display: true
           },
           suggestedMin: 0,
           suggestedMax: 0.4
