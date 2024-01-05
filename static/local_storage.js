@@ -45,6 +45,7 @@ function process_data_html(parsed_data) {
     const timestamp = new Date(parsed_data.timestamp).toLocaleString('en-US', options);
     const original_input = parsed_data.inputText;
     const payload_emotion_results = parsed_data.emotionResults;
+    const user_reflection_notes = parsed_data.userReflection
 
     let html_content = `<div id=${parsed_data.keyName}>`;
     html_content += `<hr>`;
@@ -53,19 +54,22 @@ function process_data_html(parsed_data) {
 
     // Unpacks the emotion object into its individual score lines per emotion
     html_content += `<ul>`;
-
     payload_emotion_results.forEach(emotion_line => {
         if (emotion_line.filter) {
             // Removing based on pre-filter model attribute
             html_content += `<li>${emotion_line.emotion} (${emotion_line.definition}) detected with a score of ${emotion_line.score.toFixed(3)}</li>`;
         }
     });
-
     html_content += `</ul>`;
+
+    // If user never submitted an additional note - it won't output
+    if (typeof user_reflection_notes !== 'undefined'){
+        html_content += `<p>Your personal notes: ${user_reflection_notes}</p>`
+    }
+
     html_content += `</div>`; // Close the container div for each entry
     return html_content;
 }
-
 // Reads local storage in order to get all stored key objects
 function get_json_local_storage(){
     const all_local_keys = Object.keys(localStorage).sort(); //Sorted in old->new order based on key timestamp
