@@ -245,36 +245,24 @@ function calculateAverage(array) {
   return average;
 }
 
-// Return all scores for attribute emotion_category in emotion_object
-function allCategoryScores(emotion_object, category) {
-
-  var temp_all_scores = []
-
-  for (line of emotion_object) {
-    if (line.emotion_category == category) { // Need to look into making this generic? Add a parameter named attribute?
-      temp_all_scores.push(line.score)
-    }
-  }
-
-  return temp_all_scores
-}
-
-// For an emotionResults array, use specific emotion_category to return the average value for its score attribute
-function averageCategoryScore(emotion_object, category) {
-
-  all_scores = allCategoryScores(emotion_object, category)
-  average = calculateAverage(all_scores)
-//  console.log(`Average score for ${category} is ${average}`)
-  return average
-}
-
 // Takes list of categories and returns an array of their averages in the passed order
 function allAverageCategoryScores(emotion_object, list_of_categories) {
 
   temp_all_average_scores = []
 
+  // Gets the average for a specific category and repeats it for each
   for (category of list_of_categories) {
-    result = averageCategoryScore(emotion_object, category)
+
+    var temp_all_scores = []
+
+    for (line of emotion_object) {
+      if (line.emotion_category == category) { // Need to look into making this generic? Add a parameter named attribute?
+        temp_all_scores.push(line.score)
+      }
+    }
+  
+    result = calculateAverage(temp_all_scores)
+
     temp_all_average_scores.push(result)
   }
 
