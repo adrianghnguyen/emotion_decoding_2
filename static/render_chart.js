@@ -9,8 +9,6 @@ function retrieveLatestStoredLocalStorage() {
     const parsed_data = JSON.parse(latest_data_payload)
 
     console.log('Retrieving latest stored payload from local storage')
-    console.log(parsed_data)
-
     return parsed_data
 }
 
