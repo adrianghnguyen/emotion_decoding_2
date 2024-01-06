@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from feelings_detection import process_single_result
 
 app = Flask(__name__)

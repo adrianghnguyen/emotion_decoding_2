@@ -33,12 +33,15 @@
 	  </div>
 	</div>
 </div>
-<script>
-	// On page load, read the locally stored submission data entries and render them as an HTML element
-	document.addEventListener('DOMContentLoaded', function() {
-	    console.log('Reading previously stored browser emotion submission entries and rendering on page')
-	    create_historical_results();
-	});
-</script>
+<div id="historical_results">
+	<script>create_historical_results('historical_results');</script>
+</div>
+<!--<script>-->
+<!--	// On page load, read the locally stored submission data entries and render them as an HTML element-->
+<!--	document.addEventListener('DOMContentLoaded', function() {-->
+<!--	    console.log('Reading previously stored browser emotion submission entries and rendering on page')-->
+<!--	    -->
+<!--	});-->
+<!--</script>-->
 {% endblock %}
 

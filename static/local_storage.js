@@ -1,5 +1,5 @@
 // Produces the browser local storage data as a page result element
-function create_historical_results() {
+function create_historical_results(target_element_id) {
     // This function should probably be refactored to take in an output from get_json_local_storage()
     const all_local_keys = Object.keys(localStorage).sort(); //Sorted in old->new order based on key timestamp.
 
@@ -19,8 +19,14 @@ function create_historical_results() {
         containerElement.innerHTML += html_content;
     });
 
-    // Append the container to the body outside the loop
-    document.body.appendChild(containerElement);
+    // Write the content to a specific element ID
+    const targetElement = document.getElementById(target_element_id);
+
+    if (target_element_id) {
+        targetElement.appendChild(containerElement);
+    } else {
+        console.error(`Element with ID '${target_element_id}' not found.`);
+    }
 }
 
 // Processes the previous emotion submission entries in the browser local and returns it as HTML
@@ -39,6 +45,7 @@ function process_data_html(parsed_data) {
     const timestamp = new Date(parsed_data.timestamp).toLocaleString('en-US', options);
     const original_input = parsed_data.inputText;
     const payload_emotion_results = parsed_data.emotionResults;
+    const user_reflection_notes = parsed_data.userReflection
 
     let html_content = `<div id=${parsed_data.keyName}>`;
     html_content += `<hr>`;
@@ -47,19 +54,22 @@ function process_data_html(parsed_data) {
 
     // Unpacks the emotion object into its individual score lines per emotion
     html_content += `<ul>`;
-
     payload_emotion_results.forEach(emotion_line => {
         if (emotion_line.filter) {
             // Removing based on pre-filter model attribute
             html_content += `<li>${emotion_line.emotion} (${emotion_line.definition}) detected with a score of ${emotion_line.score.toFixed(3)}</li>`;
         }
     });
-
     html_content += `</ul>`;
+
+    // If user never submitted an additional note - it won't output
+    if (typeof user_reflection_notes !== 'undefined'){
+        html_content += `<p>Your personal notes: ${user_reflection_notes}</p>`
+    }
+
     html_content += `</div>`; // Close the container div for each entry
     return html_content;
 }
-
 // Reads local storage in order to get all stored key objects
 function get_json_local_storage(){
     const all_local_keys = Object.keys(localStorage).sort(); //Sorted in old->new order based on key timestamp
@@ -113,4 +123,15 @@ function clear_local_storage() {
     console.log('Local storage has been cleared')
     alert('Local Storage cleared!');
     $('#clear_local_storageModal').modal('hide');
+}
+
+// Retrieves the latest object in local_storage - which should be the last thing the user submitted
+function retrieve_latest_entry(){
+    const last_entry_key = Object.keys(localStorage).sort().slice(-1)[0]; // Sort in order from old->new
+
+    // I'm repeating myself here - this may be worth bringing into its own function
+    const raw_data_payload = localStorage.getItem(last_entry_key);
+    const last_parsed_data = JSON.parse(raw_data_payload);
+
+    return last_parsed_data
 }

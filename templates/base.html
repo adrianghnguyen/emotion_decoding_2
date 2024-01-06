@@ -16,6 +16,7 @@
 	<!-- Emotional Compass scripts -->
 	<script type="text/javascript" src="{{ url_for('static', filename='local_storage.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='render_chart.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='snippets.js') }}"></script>
 	{% block head %}
     {% endblock %}
 </head>
@@ -44,7 +45,10 @@
     </div>
   </div>
 </nav>
+<!-- Wrapping everything in a container for nice page alignment-->
+<div class="container" id="page_container">
 {% block content %}
 {% endblock %}
+</div>
 </body>
 </html>

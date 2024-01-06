@@ -1,10 +1,7 @@
 {% extends "base.html" %}
 {% block title %} Processed entry {% endblock %}
 {% block content %}
-<!-- Original user input-->
-<div class="container" id="text_input">
-	<p id="inputText" >{{ input_text }}</p>
-</div>
+
 <!-- Machine-learning model results-->
 <div class="container border border-secondary rounded mb-3" id="chart_displays" >
 	<h3 class="py-3">Machine-learning detected results</h3>
@@ -22,7 +19,6 @@
 		        data-bs-target="#raw_results_output"
 		  aria-expanded="false" aria-controls="collapseExample">See raw scores</button>
 	</div>
-
 	<div class="container collapse my-3" id="raw_results_output">
 		<div class="card card-body" id="raw_results">
 	    <ul>
@@ -38,30 +34,11 @@
 	    <p>All values <b><{{ filtering_threshold }} </b> have been filtered.</p>
 		</div>
 	</div>
-	<!--	Ask user to begin investigating their emotion   -->
-	<div class="container my-3" id="feelings_prompt">
-		<div class="py-3" id="human_friendly_emotion_result">
-			<h5>Am I experiencing a sense of...</h5>
-		        {% for result in emotion_results %}
-		            {% if result.get("filter") == True and result.get("emotion") != "neutral" %}
-			                <li>
-			                    <b>{{ result.get("emotion")|capitalize }}?</b> {{ result.get("definition")}}
-			                </li>
-						<!-- Any other emotions -->
-		            {% endif %}
-		        {% endfor %}
-		</div>
-		<div id="additional_resources">
-			<p>Here are some list of additional resources to find other words to describe your emotional experience --
-			   Placeholder</p>
-			<li><a
-				href="https://brenebrown.com/wp-content/uploads/2023/05/Atlas-Resources_02_List-of-Emotions_FeaturedCover.png">Atlas of the Heart</a></li>
-			<li><a href="https://tomdrummond.com/wp-content/uploads/2019/11/Emotion-Feelings.pdf">Emotion dictionary</a></li>
-		</div>
-	
+	<!-- Original user input-->
+	<div class="container" id="text_input">
+		<p id="inputText" >{{ input_text }}</p>
 	</div>
 </div>
-
 <script>
 	function saveResult(){
         <!-- Write in submitted values to local storage. Keep as local script to pass in results -->
@@ -103,4 +80,69 @@
 
 saveResult()
 </script>
+<!--	Ask user to begin investigating their emotion   -->
+<div class="container my-3" id="feelings_prompt">
+	<div class="py-3" id="human_friendly_emotion_result">
+		<h5>Am I experiencing a sense of...</h5>
+	        {% for result in emotion_results %}
+	            {% if result.get("filter") == True and result.get("emotion") != "neutral" %}
+		                <li>
+		                    <b>{{ result.get("emotion")|capitalize }}?</b> {{ result.get("definition")}}
+		                </li>
+					<!-- Any other emotions -->
+	            {% endif %}
+	        {% endfor %}
+	</div>
+	<div id="additional_resources">
+		<p>Here are some list of additional resources to find other words to describe your emotional experience --
+		   Placeholder</p>
+		<li><a
+			href="https://brenebrown.com/wp-content/uploads/2023/05/Atlas-Resources_02_List-of-Emotions_FeaturedCover.png">Atlas of the Heart</a></li>
+		<li><a href="https://tomdrummond.com/wp-content/uploads/2019/11/Emotion-Feelings.pdf">Emotion dictionary</a></li>
+	</div>
+</div>
+
+<!--Ask for user to reflect-->
+<div class="container p-3" id="user_reflection">
+	<div id="saveAlertPlaceholder"></div>
+	<div class="input-group">
+		<textarea class="form-control" id="user_reflection_text" name="input_text" rows="5"
+			              placeholder="(Placeholder) Write down additional thoughts such as bodily sensations, etc."></textarea>
+	</div>
+	<button type="submit" id="saveButton" class="btn btn-primary mt-3"
+	        onclick="saveUserReflection('user_reflection_text')" >Save
+	personal note</button>
+</div>
+<script>
+	// When user clicks button to save their free response comments, append it to our stored object
+	function saveUserReflection(target_element) {
+	  const user_reflection_comment_element = document.getElementById(target_element);
+	
+	  if (user_reflection_comment_element) {
+	    const user_reflection_comment = user_reflection_comment_element.value;
+	
+	    let updated_entry = retrieve_latest_entry();
+	
+	    if (updated_entry && typeof updated_entry === 'object' && 'keyName' in updated_entry) {
+	      updated_entry['userReflection'] = user_reflection_comment;
+	
+	      // Update the existing local_storage key with the newly updated object
+	      let key_name = updated_entry.keyName;	
+	      let jsonString = JSON.stringify(updated_entry);
+	      localStorage.setItem(key_name, jsonString);
+	    } else {
+	      console.error('Error: retrieve_latest_entry did not return a valid object with keyName property.');
+	    }
+	  } else {
+	    console.error(`Element with ID '${target_element}' not found.`);
+	  }
+	}
+
+	// Triggers message alert after user clicks save
+	alertTrigger('saveAlertPlaceholder', 'saveButton', 'Personal note has been saved.', 'success')
+</script>
+<!--Disable for the moment-->
+<!--<div class="container">-->
+<!--	<button type="button" class="btn btn-secondary" onclick="window.location.href='/results'">Go to History</button>-->
+<!--</div>-->
 {% endblock %}
