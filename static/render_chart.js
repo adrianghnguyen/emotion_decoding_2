@@ -115,8 +115,11 @@ function radarEmotionCategories(emotion_result_object, element_id) { // Right no
     const higher_emotion_categories = ['positive','ambiguous','negative','neutral'] // Using hard-coded values to force radar to output in a specific and create axes. Positive needs to be opposite of negative.
 
     //Prep the data for the chart
-    filtered_emotion_object = emotion_result_object.filter((emotion_result) => emotion_result.filter)   // Remove zero-values of emotion_scores dragging down the average
+    filtered_emotion_object = emotion_result_object.filter((emotion_result) => emotion_result.filter) 
+    // Remove zero-values of emotion_scores dragging down the average
     chart_data = allAverageCategoryScores(filtered_emotion_object, higher_emotion_categories) // Creates data format appropriate for chart.js since it looks at the position with the labels
+  
+    console.log(chart_data)
     createRadarChart(higher_emotion_categories, chart_data, 'Category average', element_id)
 }
 
@@ -250,23 +253,34 @@ function allAverageCategoryScores(emotion_object, list_of_categories) {
 
   temp_all_average_scores = []
 
-  // Gets the average for a specific category and repeats it for each
-  for (category of list_of_categories) {
+  array_nb = list_of_categories.length
+  all_average_scores = {}
 
-    var temp_all_scores = []
-
-    for (line of emotion_object) {
-      if (line.emotion_category == category) { // Need to look into making this generic? Add a parameter named attribute?
-        temp_all_scores.push(line.score)
-      }
-    }
-  
-    result = calculateAverage(temp_all_scores)
-
-    temp_all_average_scores.push(result)
+  for(category of list_of_categories){
+    all_average_scores[category] = []
   }
 
-  return temp_all_average_scores
+  // Get all the respective results for a specific category and accumulates it into an array
+  for (line of emotion_object){
+      for(category of list_of_categories){
+        if(category == line.emotion_category){
+          all_average_scores[category].push(line.score)
+        }
+      }
+  }
+
+  // Store it as an object to make it independent of order that the values were placed in
+  average_score_dict = []
+  for (const [key, value] of Object.entries(all_average_scores)) {
+    average_score_dict[key] = calculateAverage(value)
+  }
+
+  sorted_chart_data = []
+  for(category of list_of_categories){
+      sorted_chart_data.push(average_score_dict[category])
+  }
+
+  return sorted_chart_data
 }
 
 // Takes list of categories and returns an array of their averages in the passed order
