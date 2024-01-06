@@ -115,12 +115,17 @@ function radarEmotionCategories(emotion_result_object, element_id) { // Right no
     const higher_emotion_categories = ['positive','ambiguous','negative','neutral'] // Using hard-coded values to force radar to output in a specific and create axes. Positive needs to be opposite of negative.
 
     //Prep the data for the chart
-    filtered_emotion_object = emotion_result_object.filter((emotion_result) => emotion_result.filter) 
-    // Remove zero-values of emotion_scores dragging down the average
+    filtered_emotion_object = emotion_result_object.filter((emotion_result) => emotion_result.filter)     // Remove zero-values of emotion_scores dragging down the average
+
+    // Need to align it with the labels position
     chart_data = allAverageCategoryScores(filtered_emotion_object, higher_emotion_categories) // Creates data format appropriate for chart.js since it looks at the position with the labels
+    sorted_chart_data = []
+    for(category of higher_emotion_categories){
+      sorted_chart_data.push(chart_data[category])
+    }
   
-    console.log(chart_data)
-    createRadarChart(higher_emotion_categories, chart_data, 'Category average', element_id)
+    console.log(sorted_chart_data)
+    createRadarChart(higher_emotion_categories, sorted_chart_data, 'Category average', element_id)
 }
 
 // Detailed radar chart for all 28 emotion scores - TBH this chart isn't very useful
@@ -275,12 +280,7 @@ function allAverageCategoryScores(emotion_object, list_of_categories) {
     average_score_dict[key] = calculateAverage(value)
   }
 
-  sorted_chart_data = []
-  for(category of list_of_categories){
-      sorted_chart_data.push(average_score_dict[category])
-  }
-
-  return sorted_chart_data
+  return average_score_dict
 }
 
 // Takes list of categories and returns an array of their averages in the passed order
@@ -301,7 +301,7 @@ function allAverageCategoryScores_v2(emotion_object, list_of_categories) {
 	return temp_all_average_scores
   }
 
-// Take emotion_result object and computes the category averages which is returned for the chart data
+// Take emotion_result object and computes the category averages which is returned for the timeline
 function convertResultSentimentAverage(emotion_result_object){
     // Hard-coded to specify a return order
     const higher_emotion_categories = ['positive', 'negative', 'ambiguous', 'neutral'] // This will become the label
