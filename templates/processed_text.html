@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block title %} Processed entry {% endblock %}
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+{% endblock %}
 {% block content %}
 
 <!-- Machine-learning model results-->
@@ -39,6 +44,7 @@
 		<p id="inputText" >{{ input_text }}</p>
 	</div>
 </div>
+<!-- Save results into local storage script -->
 <script>
 	function saveResult(){
         <!-- Write in submitted values to local storage. Keep as local script to pass in results -->
@@ -78,7 +84,7 @@
         radarEmotionCategories(latest_emotion_result, 'radarEmotionCategories')
     }
 
-saveResult()
+	saveResult()
 </script>
 <!--	Ask user to begin investigating their emotion   -->
 <div class="container my-3" id="feelings_prompt">
@@ -141,8 +147,7 @@ saveResult()
 	// Triggers message alert after user clicks save
 	alertTrigger('saveAlertPlaceholder', 'saveButton', 'Personal note has been saved.', 'success')
 </script>
-<!--Disable for the moment-->
-<!--<div class="container">-->
-<!--	<button type="button" class="btn btn-secondary" onclick="window.location.href='/results'">Go to History</button>-->
-<!--</div>-->
+<div class="container">
+<button type="button" class="btn btn-secondary" onclick="window.location.href='/results'">Go to History</button>
+</div>
 {% endblock %}
