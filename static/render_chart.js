@@ -124,7 +124,6 @@ function radarEmotionCategories(emotion_result_object, element_id) { // Right no
     sorted_chart_data.push(chart_data[category])
   }
 
-  console.log(sorted_chart_data)
   createRadarChart(higher_emotion_categories, sorted_chart_data, 'Category average', element_id)
 }
 
@@ -179,7 +178,6 @@ function lineChartTimelineCategory(all_data, element_name) {
         category_timeline_values[category] = [];
       }
 
-      console.log(category_averages_dict[category])
       category_timeline_values[category].push(category_averages_dict[category])
     }
 
