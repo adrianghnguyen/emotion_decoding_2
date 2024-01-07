@@ -111,9 +111,10 @@
 </div>
 <!--Ask for user to reflect-->
 <div class="container p-3" id="user_reflection">
-	<div id="saveAlertPlaceholder"></div>
 	<h2>Let's investigate your emotional experience in more details</h4>
-	<!-- Ask user to tag their emotions -->
+		<!-- Pop up when user clicks "Save personal note" -->
+		<div id="saveAlertPlaceholder"></div>
+		<!-- Ask user to tag their emotions -->
 	<div class="" id="user_emotion_tagging">
 		<p>I am experiencing the following feelings: </p>
 		<!-- Reads from the valid results to generate the pre-suggested emotion tags -->
@@ -140,9 +141,13 @@
 			})
 			
 			// Listen to changed values of tagify selection value
+			// Re-work this into a wrapper?
+			var user_emotion_tag  = []
 			input.addEventListener('change', onChange)
 			function onChange(e){
-			console.log(e.target.value)
+				tagify_object = JSON.parse(e.target.value)
+				user_emotion_tag = tagify_object
+				console.log(user_emotion_tag)
 			}
 		</script>
 	</div>
@@ -168,7 +173,9 @@
 	
 	    if (updated_entry && typeof updated_entry === 'object' && 'keyName' in updated_entry) {
 	      updated_entry['userReflection'] = user_reflection_comment;
-	
+		  updated_entry['userEmotionTags'] = user_emotion_tag; // From the event listener of tagify
+		  console.log(`Updated the user entry log`)
+
 	      // Update the existing local_storage key with the newly updated object
 	      let key_name = updated_entry.keyName;	
 	      let jsonString = JSON.stringify(updated_entry);

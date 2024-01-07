@@ -46,6 +46,7 @@ function process_data_html(parsed_data) {
     const original_input = parsed_data.inputText;
     const payload_emotion_results = parsed_data.emotionResults;
     const user_reflection_notes = parsed_data.userReflection
+    const user_emotion_tags = parsed_data.userEmotionTags
 
     let html_content = `<div id=${parsed_data.keyName}>`;
     html_content += `<hr>`;
@@ -62,9 +63,15 @@ function process_data_html(parsed_data) {
     });
     html_content += `</ul>`;
 
-    // If user never submitted an additional note - it won't output
+    // Personal content section
     if (typeof user_reflection_notes !== 'undefined'){
         html_content += `<p>Your personal notes: ${user_reflection_notes}</p>`
+    }
+
+    if (typeof user_emotion_tags !== 'undefined'){
+        console.log(user_emotion_tags)
+        const list_user_emotion_tags = user_emotion_tags.map(item => ' '+item.value)
+        html_content += `Tagged emotions: ${list_user_emotion_tags}</p>`
     }
 
     html_content += `</div>`; // Close the container div for each entry
