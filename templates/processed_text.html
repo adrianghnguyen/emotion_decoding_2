@@ -116,7 +116,14 @@
 	<!-- Ask user to tag their emotions -->
 	<div class="" id="user_emotion_tagging">
 		<p>Select the emotions to best tag how you are feeling: </p>
-		<input name='input-custom-dropdown' class="container rounded mb-2" placeholder='I am feeling...' value=''>
+		{% comment %} Reads from the valid results to generate the pre-suggested emotion tags {% endcomment %}
+		{% set emotion_valid_results = [] %}
+		{% for result in emotion_results %}
+			{% if result.get("filter") == True and result.get("emotion") != "neutral" %}
+				{% set _ = emotion_valid_results.append(result.get("emotion").capitalize()) %}
+			{% endif %}
+		{% endfor %}
+		<input name='input-custom-dropdown' class="container rounded mb-2" placeholder='I am feeling...' value={{ emotion_valid_results|join(',')}}>		
 		<script>
 			var input = document.querySelector('input[name="input-custom-dropdown"]'),
 			// init Tagify script on the above inputs
