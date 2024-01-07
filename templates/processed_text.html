@@ -116,7 +116,7 @@
 	<!-- Ask user to tag their emotions -->
 	<div class="" id="user_emotion_tagging">
 		<p>I am experiencing the following feelings: </p>
-		{% comment %} Reads from the valid results to generate the pre-suggested emotion tags {% endcomment %}
+		<!-- Reads from the valid results to generate the pre-suggested emotion tags -->
 		{% set emotion_valid_results = [] %}
 		{% for result in emotion_results %}
 			{% if result.get("filter") == True and result.get("emotion") != "neutral" %}
@@ -128,19 +128,26 @@
 			var input = document.querySelector('input[name="input-custom-dropdown"]'),
 			// init Tagify script on the above inputs
 			tagify = new Tagify(input, {
-			whitelist: ["Admiration", "Agitated", "Agonized Alone", "Amusement", "Anger", "Annoyance", "Anxious", "Approval", "Ashamed", "Bashful", "Betrayed", "Blue", "Boiling", "Caring", "Cautious", "Cheerful", "Confused", "Contented", "Curious", "Dazed", "Defamed", "Defended", "Delighted", "Depressed", "Desire", "Desolate", "Despair", "Despondent", "Determined", "Deterred", "Devastated", "Devotion", "Dishonored", "Disappointed", "Disapproval", "Discouraged", "Disgraced", "Disgusted", "Dismayed", "Dissatisfied", "Distressed", "Ecstatic", "Embarrassed", "Enraged", "Excitement", "Exuberant", "Frustrated", "Glad", "Gleeful", "Glorious", "Glum", "Glowing", "Grateful", "Grief", "Guilty", "Happy", "Heartbroken", "Hopeless", "Horrified", "Hurt", "Irate", "Irritated Touchy", "Joy", "Loathsome", "Lost", "Love", "Melancholy", "Mellow", "Miserable", "Moody", "Mortified", "Nervous", "Nervousness", "Optimism", "Ornery", "Outraged Boiling", "Overjoyed", "Panic", "Passionate", "Perturbed", "Petrified", "Pleased", "Pride", "Realization", "Relieved", "Remorse", "Remorseful", "Relief", "Regretful", "Remorse", "Remorseful", "Ridiculous", "Sadness", "Satisfied", "Scared stiff", "Seething", "Secretive", "Shocked", "Silly", "Sneaky", "Somber", "Sorrowful", "Startled", "Stifled", "Stunned", "Surprise", "Tender", "Terrified", "Threatened", "Thrilled", "Timid", "Touched", "Trapped", "Uncertain", "Uneasy", "Unhappy", "Unsure", "Upset", "Upset", "Uptight", "Wary", "Weird", "Wishful", "Worried", "Worthless"],
-			maxTags: 10,
+			whitelist: ["Admiration", "Agitated", "Agonized Alone", "Amusement", "Anger", "Annoyance", "Anxious", "Approval", "Ashamed", "Bashful", "Betrayed", "Blue", "Boiling", "Caring", "Cautious", "Cheerful", "Confused", "Contented", "Curious", "Dazed", "Defamed", "Defended", "Delighted", "Depressed", "Desire", "Desolate", "Despair", "Despondent", "Determined", "Deterred", "Devastated", "Devotion", "Dishonored", "Disappointed", "Disapproval", "Discouraged", "Disgraced", "Disgusted", "Dismayed", "Dissatisfied", "Distressed", "Ecstatic", "Embarrassed", "Enraged", "Excitement", "Exuberant", "Frustrated", "Glad", "Gleeful", "Glorious", "Glum", "Glowing", "Grateful", "Grief", "Guilty", "Happy", "Heartbroken", "Hopeless", "Horrified", "Hurt", "Irate", "Irritated Touchy", "Joy", "Loathsome", "Lost", "Love", "Melancholy", "Mellow", "Miserable", "Moody", "Mortified", "Nervous", "Nervousness", "Optimism", "Ornery", "Outraged Boiling", "Overjoyed", "Panic", "Passionate", "Perturbed", "Petrified", "Pleased", "Pride", "Realization", "Relieved", "Remorse", "Remorseful", "Relief", "Regretful", "Remorse", "Remorseful", "Ridiculous", "Sadness", "Satisfied", "Scared stiff", "Seething", "Secretive", "Shocked", "Silly", "Sneaky", "Somber", "Sorrowful", "Startled", "Stifled", "Stunned", "Surprise", "Tender", "Terrified", "Threatened", "Thrilled", "Timid", "Touched", "Trapped", "Uncertain", "Uneasy", "Unhappy", "Unsure", "Upset", "Uptight", "Wary", "Weird", "Wishful", "Worried", "Worthless"],
+			maxTags: 30,
+			placeholder: "I am feeling...",
 			dropdown: {
 				maxItems: 20,           // <- mixumum allowed rendered suggestions
 				classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
-				enabled: 0,             // <- show suggestions on focus
+				enabled: 0,             // <- Logic is kinda backwards. Enabled to 0 makes it so it shows the suggestions on click into the search bar.
 				closeOnSelect: false    // <- do not hide the suggestions dropdown once an item has been selected
 			}
 			})
+			
+			// Listen to changed values of tagify selection value
+			input.addEventListener('change', onChange)
+			function onChange(e){
+			console.log(e.target.value)
+			}
 		</script>
 	</div>
 	<div class="input-group" id="user_free_text">
-		<p>Let&apos;s write down more details about your emotions experience. This is your safe space to investigate its roots more deeply.(Placeholder pull prompt questions from research on their evaluative methods)</p>
+		<p>Let&apos;s write down more details about your emotional experience. This is your safe space to investigate its roots more deeply.(Placeholder pull prompt questions from research on their evaluative methods)</p>
 		<textarea class="form-control" id="user_reflection_text" name="input_text" rows="5"
 			              placeholder="(Placeholder) Write down additional thoughts such as bodily sensations, etc."></textarea>
 	</div>
