@@ -9,7 +9,7 @@
 
 <!-- Machine-learning model results-->
 <div class="container border border-secondary rounded mb-3" id="chart_displays" >
-	<h3 class="py-3">Machine-learning detected results</h3>
+	<h3 class="py-3">Here's a starting point...</h3>
 	<div class="row justify-content-center">
 		<div class="col-sm" id="custom-container" style="max-width: 400px">
           <canvas id="radarEmotionCategories"></canvas>
@@ -42,6 +42,28 @@
 	<!-- Original user input-->
 	<div class="container" id="text_input">
 		<p id="inputText" >{{ input_text }}</p>
+	</div>
+	<!--	Ask user to begin investigating their emotion   -->
+	<div class="container my-3" id="feelings_prompt">
+		<div class="py-3" id="human_friendly_emotion_result">
+			<h5>Am I experiencing a sense of...</h5>
+				{% for result in emotion_results %}
+					{% if result.get("filter") == True and result.get("emotion") != "neutral" %}
+							<li>
+								<b>{{ result.get("emotion")|capitalize }}?</b> {{ result.get("definition")}}
+							</li>
+						<!-- Any other emotions -->
+					{% endif %}
+				{% endfor %}
+			
+		</div>
+		<div id="additional_resources">
+			<p>Here are some list of additional resources to find other words to describe your emotional experience --
+			Placeholder</p>
+			<li><a
+				href="https://brenebrown.com/wp-content/uploads/2023/05/Atlas-Resources_02_List-of-Emotions_FeaturedCover.png">Atlas of the Heart</a></li>
+			<li><a href="https://tomdrummond.com/wp-content/uploads/2019/11/Emotion-Feelings.pdf">Emotion dictionary</a></li>
+		</div>
 	</div>
 </div>
 <!-- Save results into local storage script -->
@@ -86,80 +108,59 @@
 
 	saveResult()
 </script>
-<!--	Ask user to begin investigating their emotion   -->
-<div class="container my-3" id="feelings_prompt">
-	<div class="py-3" id="human_friendly_emotion_result">
-		<h2>Use these results as a starting point for figuring out how you feel</h2>
-		<h5>Am I experiencing a sense of...</h5>
-	        {% for result in emotion_results %}
-	            {% if result.get("filter") == True and result.get("emotion") != "neutral" %}
-		                <li>
-		                    <b>{{ result.get("emotion")|capitalize }}?</b> {{ result.get("definition")}}
-		                </li>
-					<!-- Any other emotions -->
-	            {% endif %}
-	        {% endfor %}
-		
-	</div>
-	<div id="additional_resources">
-		<p>Here are some list of additional resources to find other words to describe your emotional experience --
-		   Placeholder</p>
-		<li><a
-			href="https://brenebrown.com/wp-content/uploads/2023/05/Atlas-Resources_02_List-of-Emotions_FeaturedCover.png">Atlas of the Heart</a></li>
-		<li><a href="https://tomdrummond.com/wp-content/uploads/2019/11/Emotion-Feelings.pdf">Emotion dictionary</a></li>
-	</div>
-</div>
 <!--Ask for user to reflect-->
 <div class="container p-3" id="user_reflection">
-	<h2>Let's investigate your emotional experience in more details</h4>
-		<!-- Pop up when user clicks "Save personal note" -->
-		<div id="saveAlertPlaceholder"></div>
-		<!-- Ask user to tag their emotions -->
-	<div class="" id="user_emotion_tagging">
-		<p>I am experiencing the following feelings: </p>
-		<!-- Reads from the valid results to generate the pre-suggested emotion tags -->
-		{% set emotion_valid_results = [] %}
-		{% for result in emotion_results %}
-			{% if result.get("filter") == True and result.get("emotion") != "neutral" %}
-				{% set _ = emotion_valid_results.append(result.get("emotion").capitalize()) %}
-			{% endif %}
-		{% endfor %}
-		<input name='input-custom-dropdown' class="container rounded mb-2" placeholder='I am feeling...' value={{ emotion_valid_results|join(',')}}>		
-		<script>
-			var input = document.querySelector('input[name="input-custom-dropdown"]'),
-			// init Tagify script on the above inputs
-			tagify = new Tagify(input, {
-			whitelist: ["Admiration", "Agitated", "Agonized Alone", "Amusement", "Anger", "Annoyance", "Anxious", "Approval", "Ashamed", "Bashful", "Betrayed", "Blue", "Boiling", "Caring", "Cautious", "Cheerful", "Confused", "Contented", "Curious", "Dazed", "Defamed", "Defended", "Delighted", "Depressed", "Desire", "Desolate", "Despair", "Despondent", "Determined", "Deterred", "Devastated", "Devotion", "Dishonored", "Disappointed", "Disapproval", "Discouraged", "Disgraced", "Disgusted", "Dismayed", "Dissatisfied", "Distressed", "Ecstatic", "Embarrassed", "Enraged", "Excitement", "Exuberant", "Frustrated", "Glad", "Gleeful", "Glorious", "Glum", "Glowing", "Grateful", "Grief", "Guilty", "Happy", "Heartbroken", "Hopeless", "Horrified", "Hurt", "Irate", "Irritated Touchy", "Joy", "Loathsome", "Lost", "Love", "Melancholy", "Mellow", "Miserable", "Moody", "Mortified", "Nervous", "Nervousness", "Optimism", "Ornery", "Outraged Boiling", "Overjoyed", "Panic", "Passionate", "Perturbed", "Petrified", "Pleased", "Pride", "Realization", "Relieved", "Remorse", "Remorseful", "Relief", "Regretful", "Remorse", "Remorseful", "Ridiculous", "Sadness", "Satisfied", "Scared stiff", "Seething", "Secretive", "Shocked", "Silly", "Sneaky", "Somber", "Sorrowful", "Startled", "Stifled", "Stunned", "Surprise", "Tender", "Terrified", "Threatened", "Thrilled", "Timid", "Touched", "Trapped", "Uncertain", "Uneasy", "Unhappy", "Unsure", "Upset", "Uptight", "Wary", "Weird", "Wishful", "Worried", "Worthless"],
-			maxTags: 30,
-			placeholder: "I am feeling...",
-			dropdown: {
-				maxItems: 20,           // <- mixumum allowed rendered suggestions
-				classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
-				enabled: 0,             // <- Logic is kinda backwards. Enabled to 0 makes it so it shows the suggestions on click into the search bar.
-				closeOnSelect: false    // <- do not hide the suggestions dropdown once an item has been selected
-			}
-			})
-			
-			// Listen to changed values of tagify selection value
-			// Re-work this into a wrapper?
-			var user_emotion_tag  = []
-			input.addEventListener('change', onChange)
-			function onChange(e){
-				tagify_object = JSON.parse(e.target.value)
-				user_emotion_tag = tagify_object
-				console.log(user_emotion_tag)
-			}
-		</script>
-	</div>
-	<div class="input-group" id="user_free_text">
-		<p>Let&apos;s write down more details about your emotional experience. This is your safe space to investigate its roots more deeply.(Placeholder pull prompt questions from research on their evaluative methods)</p>
-		<textarea class="form-control" id="user_reflection_text" name="input_text" rows="5"
-			              placeholder="(Placeholder) Write down additional thoughts such as bodily sensations, etc."></textarea>
-	</div>
-
-	<button type="submit" id="saveButton" class="btn btn-primary mt-3"
-	        onclick="saveUserReflection('user_reflection_text')" >Save
-	personal note</button>
+    <!-- Pop up when the user clicks "Save personal note" -->
+    <div id="saveAlertPlaceholder"></div>
+    <!-- Ask the user to tag their emotions -->
+    <div class="" id="user_emotion_tagging">
+        <h4>I am feeling...</h4>
+        <!-- Reads from the valid results to generate the pre-suggested emotion tags -->
+        {% set emotion_valid_results = [] %}
+        {% for result in emotion_results %}
+            {% if result.get("filter") == True and result.get("emotion") != "neutral" %}
+                {% set _ = emotion_valid_results.append(result.get("emotion").capitalize()) %}
+            {% endif %}
+        {% endfor %}
+        <input name='input-custom-dropdown' class="container rounded mb-2" placeholder='I am feeling...' value={{ emotion_valid_results|join(',')}}>
+        <script>
+            var input = document.querySelector('input[name="input-custom-dropdown"]'),
+            // init Tagify script on the above inputs
+            tagify = new Tagify(input, {
+            whitelist: ["Admiration", "Agitated", "Agonized Alone", "Amusement", "Anger", "Annoyance", "Anxious", "Approval", "Ashamed", "Bashful", "Betrayed", "Blue", "Boiling", "Caring", "Cautious", "Cheerful", "Confused", "Contented", "Curious", "Dazed", "Defamed", "Defended", "Delighted", "Depressed", "Desire", "Desolate", "Despair", "Despondent", "Determined", "Deterred", "Devastated", "Devotion", "Dishonored", "Disappointed", "Disapproval", "Discouraged", "Disgraced", "Disgusted", "Dismayed", "Dissatisfied", "Distressed", "Ecstatic", "Embarrassed", "Enraged", "Excitement", "Exuberant", "Frustrated", "Glad", "Gleeful", "Glorious", "Glum", "Glowing", "Grateful", "Grief", "Guilty", "Happy", "Heartbroken", "Hopeless", "Horrified", "Hurt", "Irate", "Irritated Touchy", "Joy", "Loathsome", "Lost", "Love", "Melancholy", "Mellow", "Miserable", "Moody", "Mortified", "Nervous", "Nervousness", "Optimism", "Ornery", "Outraged Boiling", "Overjoyed", "Panic", "Passionate", "Perturbed", "Petrified", "Pleased", "Pride", "Realization", "Relieved", "Remorse", "Remorseful", "Relief", "Regretful", "Remorse", "Remorseful", "Ridiculous", "Sadness", "Satisfied", "Scared stiff", "Seething", "Secretive", "Shocked", "Silly", "Sneaky", "Somber", "Sorrowful", "Startled", "Stifled", "Stunned", "Surprise", "Tender", "Terrified", "Threatened", "Thrilled", "Timid", "Touched", "Trapped", "Uncertain", "Uneasy", "Unhappy", "Unsure", "Upset", "Uptight", "Wary", "Weird", "Wishful", "Worried", "Worthless"],
+            maxTags: 30,
+            placeholder: "I am feeling...",
+            dropdown: {
+                maxItems: 20,           // <- maximum allowed rendered suggestions
+                classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
+                enabled: 0,             // <- Logic is kinda backward. Enabled to 0 makes it show the suggestions on clicking into the search bar.
+                closeOnSelect: false    // <- do not hide the suggestions dropdown once an item has been selected
+            }
+            })
+            
+            // Listen to changed values of tagify selection value
+            // Re-work this into a wrapper?
+            var user_emotion_tag  = []
+            input.addEventListener('change', onChange)
+            function onChange(e){
+                tagify_object = JSON.parse(e.target.value)
+                user_emotion_tag = tagify_object
+                console.log(user_emotion_tag)
+            }
+        </script>
+    </div>
+    <div id="additional_notes_user">
+        <h4>Additional notes</h4>
+        <ul>
+            <li>What else am I experiencing?</li>
+            <li>Record any bodily sensations as you explore these emotions with curiosity</li>
+            <li>Are there experiences that may be distorting this current experience?</li>
+        </ul>
+        <div class="input-group" id="user_free_text">
+            <textarea class="form-control" id="user_reflection_text" name="input_text" rows="5" placeholder="Write down anything you deem appropriate."></textarea>
+        </div>
+    </div>
+    <button type="submit" id="saveButton" class="btn btn-primary mt-3" onclick="saveUserReflection('user_reflection_text')">Save personal note</button>
 </div>
 <script>
 	// When user clicks button to save their free response comments, append it to our stored object
