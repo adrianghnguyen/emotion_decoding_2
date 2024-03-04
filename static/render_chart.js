@@ -314,9 +314,22 @@ function createFrequencyChart(local_storage_data){
   // Compute how many times each emotion occurred
   local_storage_data.forEach(local_entry => {
     emotion_results = local_entry.emotionResults
-    const result = emotion_results.filter((single_emotion_score) => single_emotion_score['filter'])
-    console.log(result)
+    let filtered_result = emotion_results.filter((single_emotion_score) => single_emotion_score['filter'])
+    emotion_occurence.push(filtered_result)
+    // console.log(result)
   })
+
+  const flat_emotion_occurence = emotion_occurence.flat()
+
+  // Use reduce to count occurrences of each emotion
+  const emotion_counts = flat_emotion_occurence.reduce((counts, entry) => {
+    const emotion = entry.emotion;
+    counts[emotion] = (counts[emotion] || 0) + 1;
+    return counts;
+  }, {});
+
+  var temp = emotion_counts
+  console.log(temp)
 
 }
 
