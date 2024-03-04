@@ -306,3 +306,17 @@ function convertResultSentimentAverage(emotion_result_object) {
   return computed_averages
 }
 
+// Creates a frequency chart counting the occurrence of the emotion in the history
+function createFrequencyChart(local_storage_data){
+
+  var emotion_occurence = []
+
+  // Compute how many times each emotion occurred
+  local_storage_data.forEach(local_entry => {
+    emotion_results = local_entry.emotionResults
+    const result = emotion_results.filter((single_emotion_score) => single_emotion_score['filter'])
+    console.log(result)
+  })
+
+}
+
