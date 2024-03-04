@@ -306,3 +306,67 @@ function convertResultSentimentAverage(emotion_result_object) {
   return computed_averages
 }
 
+// Creates a frequency chart counting the occurrence of the emotion in the history
+function createFrequencyChart(local_storage_data, element_name) {
+
+  // Retrieve the relevant emotions to be counted
+  var emotion_occurence = [];
+  local_storage_data.forEach(local_entry => {
+    emotion_results = local_entry.emotionResults;
+    let filtered_result = emotion_results.filter((single_emotion_score) => single_emotion_score['filter']);
+    emotion_occurence.push(filtered_result);
+  });
+
+  const flat_emotion_occurence = emotion_occurence.flat();
+
+  // Use reduce to count occurrences of each emotion
+  const emotion_counts = flat_emotion_occurence.reduce((counts, entry) => {
+    const emotion = entry.emotion;
+    counts[emotion] = (counts[emotion] || 0) + 1;
+    return counts;
+  }, {});
+  // Transform the result into an array of objects
+  const resultArray = Object.keys(emotion_counts).map(emotion => ({
+    emotion: emotion,
+    occurrence: emotion_counts[emotion]
+  }));
+
+  // Sort the array by the "occurrence" property in descending order
+  const sortedEmotionArray = resultArray.sort((a, b) => b.occurrence - a.occurrence);
+  console.log(sortedEmotionArray)
+
+
+  // Convert the object into the bar chart
+  let labels = []
+  let datapoints = []
+
+  for (let line of sortedEmotionArray){
+    labels.push(line.emotion),
+    datapoints.push(line.occurrence)
+  }
+
+  // Make the data chart
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'Calculated emotion frequency',
+      data: datapoints,
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+
+  new Chart(document.getElementById(element_name), config)
+}
+
+

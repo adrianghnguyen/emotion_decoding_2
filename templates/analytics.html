@@ -2,10 +2,15 @@
 {% block title %} Processed entry {% endblock %}
 {% block content %}
 <div class="container">
-	<div style="width: 800px;"><canvas id="lineChart"></canvas></div><br/>
+	<div style="width: 800px;">
+		<canvas id="lineChart"></canvas>
+		<canvas id="frequencyChart"></canvas>
+	</div>
+	<br/>
 </div>
 <script>
 	retrieved_data = get_json_local_storage()
 	lineChartTimelineCategory(retrieved_data,'lineChart')
+	createFrequencyChart(retrieved_data,'frequencyChart')
 </script>
 {% endblock %}
