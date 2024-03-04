@@ -307,19 +307,18 @@ function convertResultSentimentAverage(emotion_result_object) {
 }
 
 // Creates a frequency chart counting the occurrence of the emotion in the history
-function createFrequencyChart(local_storage_data){
-
-  var emotion_occurence = []
+function createFrequencyChart(local_storage_data) {
+  var emotion_occurence = [];
 
   // Compute how many times each emotion occurred
   local_storage_data.forEach(local_entry => {
-    emotion_results = local_entry.emotionResults
-    let filtered_result = emotion_results.filter((single_emotion_score) => single_emotion_score['filter'])
-    emotion_occurence.push(filtered_result)
+    emotion_results = local_entry.emotionResults;
+    let filtered_result = emotion_results.filter((single_emotion_score) => single_emotion_score['filter']);
+    emotion_occurence.push(filtered_result);
     // console.log(result)
-  })
+  });
 
-  const flat_emotion_occurence = emotion_occurence.flat()
+  const flat_emotion_occurence = emotion_occurence.flat();
 
   // Use reduce to count occurrences of each emotion
   const emotion_counts = flat_emotion_occurence.reduce((counts, entry) => {
@@ -328,8 +327,14 @@ function createFrequencyChart(local_storage_data){
     return counts;
   }, {});
 
-  var temp = emotion_counts
-  console.log(temp)
+  // Transform the result into an array of objects
+  const resultArray = Object.keys(emotion_counts).map(emotion => ({
+    emotion: emotion,
+    occurrence: emotion_counts[emotion]
+  }));
 
+  // Log or use the result as needed
+  console.log(resultArray);
 }
+
 
