@@ -325,22 +325,22 @@ function createFrequencyChart(local_storage_data, element_name) {
     counts[emotion] = (counts[emotion] || 0) + 1;
     return counts;
   }, {});
-
-  
-
   // Transform the result into an array of objects
   const resultArray = Object.keys(emotion_counts).map(emotion => ({
     emotion: emotion,
     occurrence: emotion_counts[emotion]
   }));
 
-  console.log(resultArray)
+  // Sort the array by the "occurrence" property in descending order
+  const sortedEmotionArray = resultArray.sort((a, b) => b.occurrence - a.occurrence);
+  console.log(sortedEmotionArray)
+
 
   // Convert the object into the bar chart
   let labels = []
   let datapoints = []
 
-  for (let line of resultArray){
+  for (let line of sortedEmotionArray){
     labels.push(line.emotion),
     datapoints.push(line.occurrence)
   }
@@ -349,7 +349,7 @@ function createFrequencyChart(local_storage_data, element_name) {
   const data = {
     labels: labels,
     datasets: [{
-      label: 'Emotion frequency histogram',
+      label: 'Calculated emotion frequency',
       data: datapoints,
     }]
   };
