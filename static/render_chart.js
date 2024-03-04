@@ -349,7 +349,7 @@ function createFrequencyChart(local_storage_data, element_name) {
   const data = {
     labels: labels,
     datasets: [{
-      label: 'Historical emotion frequency',
+      label: 'Calculated emotion frequency',
       data: datapoints,
     }]
   };
